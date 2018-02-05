@@ -1,6 +1,10 @@
 @import '../../variables.css';
 
 header {
+  background: $light-gray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   #logo {
     display: block;
     width: 30%;
