@@ -16,14 +16,12 @@ export default class Header {
     const tradesLink = dom.querySelector('#trades-link');
     const categories = dom.querySelector('#category-accordian');
 
-    categories.addEventListener('click', (event) => {
+    // categories.addEventListener('click', (event) => {
 
     auth.onAuthStateChanged(user => {
       let child = null;
-      console.log('Inside onAuthStateChanged');
       if(user) {
         child = new User().render();
-        tradesLink.classList.remove('hidden');
       }
       else {
         child = document.createElement('a');
