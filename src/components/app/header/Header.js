@@ -13,17 +13,14 @@ export default class Header {
   render() {
     const dom = template.clone();
     const userItem = dom.querySelector('.user-nav');
-    const tradesLink = dom.querySelector('.trades-link');
+    const tradesLink = dom.querySelector('#trades-link');
     const categories = dom.querySelector('#category-accordian');
 
     categories.addEventListener('click', (event) => {
-      event.preventDefault();
-
-    });
 
     auth.onAuthStateChanged(user => {
       let child = null;
-
+      console.log('Inside onAuthStateChanged');
       if(user) {
         child = new User().render();
         tradesLink.classList.remove('hidden');
