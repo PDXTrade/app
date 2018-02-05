@@ -2,13 +2,14 @@ import Template from '../Template';
 import html from './app.html';
 import './app.css';
 import { removeChildren } from '../dom';
+import Auth from '../auth/Auth';
 import Header from './header/Header';
 import { auth } from '../../services/firebase';
 
 const template = new Template(html);
 
 // const map = new Map();
-// map.set('#enter', Enter);
+// map.set('#auth', { Component: Auth, isPublic: true });
 // map.set('#about', About);
 
 export default class App {
