@@ -15,6 +15,7 @@ export const db = firebaseApp.database(); //the real-time database
 export const storage = firebase.storage(); //the firebase storage adjunct for images
 export const auth = firebaseApp.auth(); //the firebase auth namespace
 
+export const providers = firebase.auth;
 
 // auth.onAuthStateChanged(user => {
 //   if (user) {
