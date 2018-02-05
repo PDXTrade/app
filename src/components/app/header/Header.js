@@ -4,6 +4,7 @@ import './header.css';
 import User from './User';
 import { auth } from '../../../services/firebase';
 import { removeChildren } from '../../dom';
+// import Categories from './Categories';
 
 const template = new Template(html);
 
