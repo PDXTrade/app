@@ -2,7 +2,7 @@ import Template from '../Template';
 import html from './app.html';
 import './app.css';
 import { removeChildren } from '../dom';
-import Header from './Header';
+import Header from './header/Header';
 
 const template = new Template(html);
 

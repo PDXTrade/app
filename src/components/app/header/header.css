@@ -1,0 +1,9 @@
+@import '../../variables.css';
+
+header {
+  #logo {
+    display: block;
+    width: 30%;
+    max-width: 150px;
+  }
+}
