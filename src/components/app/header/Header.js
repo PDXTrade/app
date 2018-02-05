@@ -4,7 +4,7 @@ import './header.css';
 import User from './User';
 import { auth } from '../../../services/firebase';
 import { removeChildren } from '../../dom';
-// import Categories from './Categories';
+import Categories from './Categories';
 
 const template = new Template(html);
 
@@ -14,6 +14,12 @@ export default class Header {
     const dom = template.clone();
     const userItem = dom.querySelector('.user-nav');
     const tradesLink = dom.querySelector('.trades-link');
+    const categories = dom.querySelector('#category-accordian');
+
+    categories.addEventListener('click', (event) => {
+      event.preventDefault();
+
+    });
 
     auth.onAuthStateChanged(user => {
       let child = null;
@@ -34,6 +40,8 @@ export default class Header {
       removeChildren(userItem);
       userItem.appendChild(child);
     });
+
+    // dom.querySelector('#category-nav').appendChild(new Categories().render());
 
     return dom;
   }
