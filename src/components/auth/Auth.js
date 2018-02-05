@@ -18,14 +18,17 @@ export default class Auth {
 
     const dom = template.clone();
 
+
     setTimeout(() => {
       const { origin, pathname } = window.location;
       ui.start('#auth-container', {
         signInSuccessUrl: `${origin}${pathname}${this.redirect}`,
         signInOptions: [
           providers.EmailAuthProvider.PROVIDER_ID,
-        ]
+        ], 
+        credentialHelper: firebaseui.auth.CredentialHelper.NONE
       });
+      
     });
 
     return dom;

@@ -4,28 +4,59 @@ import './app.css';
 import { removeChildren } from '../dom';
 import Auth from '../auth/Auth';
 import Header from './header/Header';
+import Home from '../home/Home';
 import { auth } from '../../services/firebase';
 
 const template = new Template(html);
 
-// const map = new Map();
-// map.set('#auth', { Component: Auth, isPublic: true });
-// map.set('#about', About);
+const map = new Map();
+map.set('#login', { Component: Auth, isPublic: true });
+
+const homepage = { Component: Home, isPublic: true };
 
 export default class App {
 
-  // constructor() {
-  //   window.onhashchange = () => {
-  //     this.setPage();
-  //   };
-  // }
+  constructor() {
+    window.onhashchange = () => this.setPage();
+    window.addEventListener('hashchange', this.hashChange); 
 
-  // setPage() {
-  //   const Component = map.get(window.location.hash) || Enter;
-  //   const component = new Component();
-  //   removeChildren(this.main);
-  //   this.main.appendChild(component.render());
-  // }
+    let authed = false;
+
+    auth.onAuthStateChanged(user => {
+      this.user = user;
+      if(!authed) {
+        authed = true;
+        this.setPage();
+      }
+      if(!user && !this.page.isPublic) {
+        window.location.hash = '#';
+      }
+    });
+  }
+
+  setPage() {
+    const { hash } = window.location;
+    const routes = hash.split('/');
+    const route = routes[0];
+    
+    if(this.page && route === this.page.route) return;
+
+    if(this.page && this.page.component) this.page.component.unrender();
+    removeChildren(this.main);
+
+    const { Component, isPublic } = map.get(route) || homepage;
+
+    let component = null;
+
+    if(!isPublic && !this.user) {
+      window.location.hash = `#login/${encodedURIComponent(hash)}`;
+    }
+    else {
+      component = new Component();
+      this.page = { route, component, isPublic };
+      this.main.appendChild(component.render());
+    }
+  }
 
   render() {
     const dom = template.clone();   
@@ -39,4 +70,8 @@ export default class App {
 
     return dom;
   }
+
+  unrender() {
+    window.removeEventListener('hashchange', this.hashChange);
+  } 
 }
