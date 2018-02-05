@@ -3,6 +3,7 @@ import html from './app.html';
 import './app.css';
 import { removeChildren } from '../dom';
 import Header from './header/Header';
+import { auth } from '../../services/firebase';
 
 const template = new Template(html);
 
