@@ -3,11 +3,14 @@ import html from './app.html';
 import './app.css';
 import { removeChildren } from '../dom';
 import Header from './Header';
+import Auth from '../auth/Auth';
+// import { auth } from '../../services/firebase';
+
 
 const template = new Template(html);
 
 // const map = new Map();
-// map.set('#enter', Enter);
+// map.set('#auth', { Component: Auth, isPublic: true });
 // map.set('#about', About);
 
 export default class App {
