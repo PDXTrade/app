@@ -5,7 +5,7 @@ var config = {
   authDomain: "tradepdx-6f568.firebaseapp.com",
   databaseURL: "https://tradepdx-6f568.firebaseio.com",
   projectId: "tradepdx-6f568",
-  storageBucket: "",
+  storageBucket: "tradepdx-6f568.appspot.com",
   messagingSenderId: "250899403871"
 };
 

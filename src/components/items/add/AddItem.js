@@ -5,36 +5,37 @@ import { db, storage, auth } from '../../../services/firebase';
 
 const template = new Template(html);
 const items = db.ref('items');
-const itemImageStorage = db.ref('item-images');
+const itemImages = db.ref('itemImages');
 const itemsByUser = db.ref('itemsByUser');
+const itemImageStorage = storage.ref('items');
 
 export default class AddItem {
   constructor(onAdd) {
     this.onAdd = onAdd;
     const currentUser = auth.currentUser;
-    this.myItems = itemsByUser.child(currentUser.uid);
+    // this.myItems = itemsByUser.child(currentUser.uid);
+    auth.onAuthStateChanged( user => {
+      if (user) { this.myItems = itemsByUser.child(auth.currentUser.uid) }
+    });
   }
-  // handleUpload(file) {
+  handleUpload(itemKey, file) {
+    
+    const imageRef = itemImages.child(itemKey).push();
 
-  //   if (filesArray.length < 6) filesArray.push(file);
-  //   else {
-  //     this.fileInput.readOnly = true;
-  //   }
+    const uploadTask = itemImageStorage.child(itemKey).child(imageRef.key).put(file);
+    return new Promise((resolve, reject) => {
 
-  //   const uploadTask = this.imageStorage.child(petImage.key).put(file);
-
-  //   uploadTask.on('state_changed', (/*snapshot*/) => {
-  //     // progress, pause and cancel events
-  //   }, err => {
-  //     // something went wrong :(
-  //     console.error(err);
-  //   }, () => {
-  //     // success! now let's get the download url...
-  //     const downloadUrl = uploadTask.snapshot.downloadURL;
-  //     this.fileInput.value = null;
-  //     petImage.set(downloadUrl);
-  //   });
-  // }
+      uploadTask.on('state_changed', (/*snapshot*/) => {
+        // progress, pause and cancel events
+      }, reject, () => {
+        // success! now let's get the download url...
+        const downloadUrl = uploadTask.snapshot.downloadURL;
+        this.fileInput.value = null;
+  
+        resolve({ url: downloadUrl, imageRef });
+      });
+    });
+  }
 
   handleSubmit(form) {
 
@@ -42,27 +43,24 @@ export default class AddItem {
 
     const data = new FormData(form);
     const item = {};
-    data.forEach((value, key) => item[key] = value);  
+    data.forEach((value, key) => item[key] = value); 
+    delete item['image-upload']; 
     
     item.owner = auth.currentUser.uid;
     const ref = items.push();
+    
+    this.handleUpload(ref.key, this.fileInput.files[0])
+      .then(({ url, imageRef }) => {
+        const updates = {
+          [ref.path]: item,
+          [this.myItems.child(ref.key).path]: true,
+          [imageRef.path]: url
+        };
 
-    updates = {
-      [ref.path]: item,
-      [this.myItems.child(ref.key).path]: true
-    };
-
-    db.ref().update(updates)
-      .then(() => {
-        
+        return db.ref().update(updates);
       })
       .then(() => window.location.hash = `#items/${ref.key}`)
       .catch(err => this.error.textContent = err);
-
-    this.items = items.child(key);
-    this.imageStorage = itemImageStorage.child(key);
-    const item = this.items.push();
-    const uploadTask = this.imageStorage.child(itemImage.key).put(file);
   }
 
   render() {
@@ -73,10 +71,10 @@ export default class AddItem {
     this.title = dom.querySelector('input[name=title]');
     this.fileInput = dom.querySelector('input[type=file]');
     
-    // form.addEventListner('submit', (event) => {
-    //   event.preventDefault();
-    //   this.handleSubmit(event.target);
-    // });
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.handleSubmit(event.target);
+    });
 
     dom.querySelector('button[type=button]').addEventListener('click', event => {
       event.preventDefault();
