@@ -38,7 +38,8 @@ export default class Items {
     this.section = dom.querySelector('section');
     this.header = dom.querySelector('#item-list-header');
     this.setChildPage();
-    this.section.appendChild(AddItem.render());
+    let childComponent2 = new AddItem();
+    this.section.appendChild(childComponent2.render());
 
     return dom; 
   }
