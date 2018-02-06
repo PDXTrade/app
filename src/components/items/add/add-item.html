@@ -1,9 +1,12 @@
 <form>
+  <div class="image-upload">
+    <label for="image-upload">Upload an image:</label>
+    <input name="image-upload" type="file" accept="image/*" capture="camera" multiple/>
+  </div>
+
   <div class="add-label">
-    <label>
-      <p>Title</p>
+      <label for="title">Title</label>
       <input required name="title">
-    </label>
   </div>
 
   <label id="submit-button">
