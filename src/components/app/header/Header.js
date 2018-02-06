@@ -15,15 +15,21 @@ export default class Header {
     const userItem = dom.querySelector('.user-nav');
     const tradesLink = dom.querySelector('#trades-link');
     const categories = dom.querySelector('#category-accordian');
+    const chevron = dom.querySelector('#category-accordian span');
+    const categoryNav = dom.querySelector('#category-nav');
 
-    // categories.addEventListener('click', (event) => {
+    chevron.addEventListener('click', (event) => {
+      event.preventDefault();
+      chevron.classList.toggle('clicked');
+      categoryNav.classList.toggle('show');
+      categoryNav.classList.toggle('hide');
+    });
+
 
     auth.onAuthStateChanged(user => {
       let child = null;
-      console.log('Inside onAuthStateChanged');
       if(user) {
         child = new User().render();
-        tradesLink.classList.remove('hidden');
       }
       else {
         child = document.createElement('a');
@@ -38,7 +44,7 @@ export default class Header {
       userItem.appendChild(child);
     });
 
-    // dom.querySelector('#category-nav').appendChild(new Categories().render());
+    dom.querySelector('#category-nav').appendChild(new Categories().render());
 
     return dom;
   }

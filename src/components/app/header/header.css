@@ -7,7 +7,62 @@ header {
   align-items: center;
   #logo {
     display: block;
-    width: 30%;
-    max-width: 150px;
+    width: 120px;
+  }
+  #category-nav {
+    position: absolute;
+    width: 100%;
+    padding: 0 .5rem;
+    ul {
+      display: flex;
+      justify-content: space-around;
+      a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  }
+  #category-accordian span {
+    transition: all .5s ease-out;
+  }
+  .clicked {
+    transform: rotate(-90deg);
+    transition: all .5s ease-out;
+  }
+  .hide {
+    opacity: 0;
+    animation: climbNav .5s ease-in;
+    animation-fill-mode: forwards;
+  }
+  .show {
+    animation: dropNav .5s ease-out;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes dropNav {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 170%);
+  }
+}
+
+@keyframes climbNav {
+  0% {
+    opacity: 1;
+    transform: translate(0, 170%);
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, -200%);
   }
 }
