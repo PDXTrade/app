@@ -10,7 +10,7 @@ const items = db.ref('items');
 
 export default class ItemList {
   constructor(listRef) {
-    this.list = db.ref(listRef) || items;
+    this.list = listRef || items;
   }
 
   render() {

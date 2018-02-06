@@ -2,7 +2,7 @@ import Template from '../../Template';
 import html from './item.html';
 import './item.css';
 import { db } from '../../../services/firebase';
-import { getUrl } from '../../../services/cloudinary';
+import { getURL } from '../../../services/cloudinary';
 
 const template = new Template(html);
 const items = db.ref('items');
@@ -27,12 +27,11 @@ export default class Item {
     this.image = dom.querySelector('img');
 
     this.onValue = this.item.on('value', data => {
-      console.log(data.val());
       this.update(data.val());
     });
     
     this.onImageValue = this.itemImages.on('child_added', data => {
-      this.image.src = getUrl(data.val(), 'c_fill,c_scale,w_150');
+      this.image.src = getURL(data.val(), 'c_fill,c_scale,w_150');
     });
 
     return dom;
