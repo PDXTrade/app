@@ -16,16 +16,3 @@ export const storage = firebase.storage(); //the firebase storage adjunct for im
 export const auth = firebaseApp.auth(); //the firebase auth namespace
 
 export const providers = firebase.auth;
-
-// auth.onAuthStateChanged(user => {
-//   if (user) {
-//     user.getIdToken().then(token => {
-//       store.dispatch(userFromToken(token));
-//     });
-//   }
-//     store.dispatch({ type: LOGOUT });
-//   }
-//   else {
-//     store.dispatch({ type: TOKEN_CHECK });
-//   }
-// });
