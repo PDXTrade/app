@@ -25,7 +25,7 @@ export default class Items {
       this.header.textContent = `${childPage}`;
     } else {
       childComponent = new ItemList();
-      this.header.textContent = `All Items`;
+      this.header.textContent = 'All Items';
       
     }
 

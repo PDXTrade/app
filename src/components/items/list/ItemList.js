@@ -2,17 +2,15 @@
 import Template from '../../Template';
 import html from './item-list.html';
 import './item-list.css';
-import { db, storage } from '../../../services/firebase';
+import { db } from '../../../services/firebase';
+import Item from './Item';
 
 const template = new Template(html);
 const items = db.ref('items');
-const itemImages = db.ref('itemImages');
-const itemsByUser = db.ref('itemsByUser');
-const itemImageStorage = storage.ref('items');
 
 export default class ItemList {
-  constructor(listRef) { //pass in list of items and reference in database?
-    this.listRef = db.ref(listRef);
+  constructor(listRef) {
+    this.list = db.ref(listRef) || items;
   }
 
   render() {
@@ -22,8 +20,8 @@ export default class ItemList {
 
     const map = new Map();
 
-    this.childAdded = this.listRef.on('child_added', data => {
-      const item = new Item(data.key, data.val());
+    this.childAdded = this.list.on('child_added', data => {
+      const item = new Item(data.key);
       const itemDom = item.render();
       map.set(data.key, {
         component: item,
@@ -33,18 +31,24 @@ export default class ItemList {
       ul.appendChild(itemDom);
     });
 
-    this.childRemoved = this.listRef.on('child_removed', data => {
+    this.childRemoved = this.list.on('child_removed', data => {
       const toRemove = map.get(data.key);
       map.delete(data.key);
       toRemove.nodes.forEach(node => node.remove());
       toRemove.component.unrender();
     });
 
-    this.childChange = this.listRef.on('child_changed', data => {
+    this.childChange = this.list.on('child_changed', data => {
       map.get(data.key).component.update(data.val());
     });
 
     return dom;
-  
+  }
+
+  unrender() {
+    items.off('child_added', this.childAdded);
+    items.off('child_removed', this.childRemoved);
+    items.off('child_changed', this.childChange);
+    this.map.forEach(({ component }) => component.unrender());
   }
 }
