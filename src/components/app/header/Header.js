@@ -14,6 +14,7 @@ export default class Header {
     const dom = template.clone();
     const userItem = dom.querySelector('.user-nav');
     const tradesLink = dom.querySelector('#trades-link');
+    const categories = dom.querySelector('#category-accordian');
     const chevron = dom.querySelector('#category-accordian span');
     const categoryNav = dom.querySelector('#category-nav');
 
@@ -23,6 +24,7 @@ export default class Header {
       categoryNav.classList.toggle('show');
       categoryNav.classList.toggle('hide');
     });
+
 
     auth.onAuthStateChanged(user => {
       let child = null;
@@ -46,4 +48,4 @@ export default class Header {
 
     return dom;
   }
-}
+} 
