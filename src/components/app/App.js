@@ -4,7 +4,7 @@ import './app.css';
 import { removeChildren } from '../dom';
 import Auth from '../auth/Auth';
 import Header from './header/Header';
-import Home from '../home/Home';
+import Items from '../items/Items';
 // import Items from '../items/Items';
 import { auth } from '../../services/firebase';
 
@@ -12,9 +12,9 @@ const template = new Template(html);
 
 const map = new Map();
 map.set('#login', { Component: Auth, isPublic: true });
-// map.set('#items', { Component: Items, isPublic: true });
+map.set('#items', { Component: Items, isPublic: true });
 
-const homepage = { Component: Home, isPublic: true };
+const homepage = { Component: Items, isPublic: true };
 
 export default class App {
 

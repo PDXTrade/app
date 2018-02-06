@@ -1,16 +1,15 @@
 import Template from '../Template';
 import html from './items.html';
-import './items.css';
 import ItemList from './list/ItemList';
-// import AddItem from './add/AddItem';
-
-import { removeChildren } from '../dom';
-
+import AddItem from './add/AddItem';
+// import { db } from '../../../services/firebase';
+// import { getUrl } from '../../../services/cloudinary';
 
 const template = new Template(html);
+// const categories = db.ref('categories');
 
 export default class Items {
-  contructor(){
+  constructor() {
     this.hashChange = () => this.setChildPage();
     window.addEventListener('hashchange', this.hashChange);
   }
@@ -18,30 +17,34 @@ export default class Items {
   setChildPage() {
     const routes = window.location.hash.split('/');
     const childPage = routes[1] || '';
-    if(this.childComponent === childPage) return;
-   
-    this.childPage = childPage;
-    if(this.childComponent) this.childComponent.unrender();
-    removeChildren(this.section);
+    if(this.childPage === childPage) return;
 
-    let childComponent;
-    if(childPage === 'add') childComponent = new AddItem();
-    else if(childPage) childComponent = new ItemDetail(childPage);
-    else childComponent = new ItemList();
-    
+    let childComponent; //how to add list of stuff from db?
+    if(childPage) {
+      childComponent = new ItemList(childPage);
+      this.header.textContent = `${childPage}`;
+    } else {
+      childComponent = new ItemList();
+      this.header.textContent = `All Items`;
+      
+    }
+
     this.childComponent = childComponent;
     this.section.appendChild(childComponent.render());
   }
 
-  render() {
+  render() { 
     const dom = template.clone();
     this.section = dom.querySelector('section');
+    this.header = dom.querySelector('#item-list-header');
     this.setChildPage();
-    return dom;
+    let childComponent2 = new AddItem();
+    this.section.appendChild(childComponent2.render());
+
+    return dom; 
   }
 
   unrender() {
-    window.removeEventListener('hashchange', this.hashchange);
+    window.removeEventListener('hashchange', this.hashChange);
   }
-
 }
