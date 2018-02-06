@@ -2,9 +2,13 @@
 import Template from '../../Template';
 import html from './item-list.html';
 import './item-list.css';
-import { db } from '../../../services/firebase';
+import { db, storage } from '../../../services/firebase';
 
 const template = new Template(html);
+const items = db.ref('items');
+const itemImages = db.ref('itemImages');
+const itemsByUser = db.ref('itemsByUser');
+const itemImageStorage = storage.ref('items');
 
 export default class ItemList {
   constructor(listRef) { //pass in list of items and reference in database?
