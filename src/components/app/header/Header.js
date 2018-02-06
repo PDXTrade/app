@@ -16,7 +16,7 @@ export default class Header {
     const tradesLink = dom.querySelector('#trades-link');
     const categories = dom.querySelector('#category-accordian');
 
-    categories.addEventListener('click', (event) => {
+    // categories.addEventListener('click', (event) => {
 
     auth.onAuthStateChanged(user => {
       let child = null;
@@ -42,4 +42,4 @@ export default class Header {
 
     return dom;
   }
-}
+} 
