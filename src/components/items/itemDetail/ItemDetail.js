@@ -113,8 +113,8 @@ export default class Item {
 
       const isOwner = item.owner === auth.currentUser.uid;
 
-      // this.images = new Images(this.key, isOwner);
-      // this.imageSection.append(this.images.render());
+      this.images = new Images(this.key, isOwner);
+      this.imageSection.append(this.images.render());
 
       if(isOwner) { //allow editing capabilities if owner
         this.tradeButton.classList.add('hidden');
