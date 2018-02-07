@@ -43,6 +43,19 @@ export default class Item {
 
   }
 
+  setCategory(category) {
+    const categoryDB = db.ref(category);
+    if(this.item.child('category')) {
+      const updates = {
+        [categoryDB.child(this.key).path]: null
+      }; //prune existing category
+
+      db.ref().update(updates);
+    }
+    categoryDB.put(this.key);
+    this.item.child('category').put(category);
+  }
+
   render() {
     const dom = template.clone();
     this.title = dom.querySelector('#detail-title');
