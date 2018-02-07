@@ -5,6 +5,7 @@ import { removeChildren } from '../dom';
 import Auth from '../auth/Auth';
 import Header from './header/Header';
 import Items from '../items/Items';
+import UserPage from '../user/UserPage';
 // import Items from '../items/Items';
 import { auth } from '../../services/firebase';
 
@@ -13,6 +14,7 @@ const template = new Template(html);
 const map = new Map();
 map.set('#login', { Component: Auth, isPublic: true });
 map.set('#items', { Component: Items, isPublic: true });
+map.set('#user', { Component: UserPage, isPublic: true });
 
 const homepage = { Component: Items, isPublic: true };
 
