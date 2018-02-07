@@ -22,7 +22,7 @@ export default class Item {
 
   render() {
     const dom = template.clone();
-    dom.querySelector('a').href = `#items/${this.key}`;
+    dom.querySelector('a').href = `#items/item/${this.key}`;
     this.caption = dom.querySelector('h2');
     this.image = dom.querySelector('img');
 

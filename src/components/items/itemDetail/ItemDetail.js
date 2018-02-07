@@ -1,6 +1,6 @@
 import Template from '../../Template';
-import html from './item.html';
-import './itemcss';
+import html from './itemDetail.html';
+import './itemDetail.css';
 import { db } from '../../../services/firebase';
 import { getUrl } from '../../../services/cloudinary';
 
@@ -8,7 +8,6 @@ const template = new Template(html);
 const items = db.ref('items');
 const itemImages = db.ref('itemImages');
 const itemsByUser = db.ref('itemsByUser');
-const itemImageStorage = storage.ref('items');
 
 export default class Item {
   constructor(key) {
