@@ -1,0 +1,43 @@
+<form>
+  <div>
+    <label for="title" class="clip">Title</label>
+    <input required name="title">
+  </div>
+
+  <ul id="images"></ul>
+
+  <div id="image-upload">
+    <label for="image-upload">Add Images:</label>
+    <input name="image-upload" type="file" accept="image/*" capture="camera"/>
+  </div>
+
+  <div>
+    <label for="description" class="clip">Description</label>
+    <input required name="description">
+  </div>
+
+  <div>
+    <label for="whishlist" class="clip">Whishlist</label>
+    <input required name="whishlist">
+  </div>
+
+  <label for="category-assign" class="clip">Category</label>
+  <select name="category-assign" id="category-assign">
+    <option value="">Choose category</option>
+    <option value="toys">Toys</option>
+    <option value="pets">Pets</option>
+    <option value="vehicles">Vehicles</option>
+    <option value="electronics">Electronics</option>
+  </select>
+
+  <label id="submit-button">
+    <button type="submit">Add</button>
+    <button type="button">Cancel</button>
+    <button type="button">Delete</button>
+  </label>
+</form>
+
+<div id="item-page-buttons">
+  <button type="button">Trade</button>
+  <button type="button">Edit</button>
+</div>
