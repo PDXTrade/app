@@ -3,6 +3,7 @@ import html from './itemDetail.html';
 import './itemDetail.css';
 import { db, auth, storage } from '../../../services/firebase';
 import { getUrl } from '../../../services/cloudinary';
+import Images from './images/Images';
 
 const template = new Template(html);
 const items = db.ref('items');
@@ -15,9 +16,6 @@ export default class Item {
     this.key = key;
     this.item = items.child(key);
     this.itemImages = itemImages.child(key);
-    auth.onAuthStateChanged(user => {
-      if(user) { this.myItems = itemsByUser.child(auth.currentUser.uid); }
-    });
   }
 
   removePet() {
@@ -61,7 +59,7 @@ export default class Item {
       if(!item) return;
 
       this.title.placeholder = `${item.title}`;
-      this.description.placeholder = `${item.description}`;
+      if(item.description) this.description.placeholder = `${item.description}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
 
       const isOwner = item.owner === auth.currentUser.uid;
@@ -78,7 +76,6 @@ export default class Item {
         removeButton.remove();
       }
     });
-
 
     return dom;
   }
