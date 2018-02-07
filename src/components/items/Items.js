@@ -39,10 +39,10 @@ export default class Items {
       childComponent = new AddItem();
       this.header.textContent = 'New Item';
       this.paragraph.textContent = 'Create a new item to trade';
-    } else if(childPage === 'Item') {
+    } else if(childPage === 'item') {
       childComponent = new ItemDetail(routes[2]); //selects key from route split
-      this.header.textContent = 'New Item';
-      this.paragraph.textContent = 'Create a new item to trade';
+      this.header.textContent = '';
+      this.paragraph.textContent = '';
     } else {
       childComponent = new ItemList();
       this.header.textContent = 'All Items';
