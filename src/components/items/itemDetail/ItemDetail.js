@@ -10,6 +10,8 @@ const items = db.ref('items');
 const itemImages = db.ref('itemImages');
 const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
+const userdb = db.ref('users');
+const itemsByCategory = db.ref('itemsByCategory');
 
 export default class Item {
   constructor(key) {
@@ -19,7 +21,7 @@ export default class Item {
   }
 
   removeItem() {
-    if(!confirm('Are you sure you want to permanently remove this item?')) return;
+    if(!confirm('Are you sure you want to permanently delete this item?')) return;
 
     const storage = itemImageStorage.child(this.key);
     storage.delete()
@@ -32,7 +34,6 @@ export default class Item {
       [items.child(this.key).path]: null,
       [itemImages.child(this.key).path]: null,
       [itemsByUser.child(auth.currentUser.uid).child(this.key).path]: null
-      //TODO: remove from categories
     };  
   
     db.ref().update(updates)
@@ -40,20 +41,42 @@ export default class Item {
       .catch(console.error);
     // TODO:
     // .catch(err => this.error.textContent = err);
-
   }
 
-  setCategory(category) {
-    const categoryDB = db.ref(category);
-    if(this.item.child('category')) {
-      const updates = {
-        [categoryDB.child(this.key).path]: null
-      }; //prune existing category
+  handleUpload(itemKey, file) { //TODO fix for edit upload.
+    
+    const imageRef = itemImages.child(itemKey).push();
 
-      db.ref().update(updates);
-    }
-    categoryDB.put(this.key);
-    this.item.child('category').put(category);
+    const uploadTask = itemImageStorage.child(itemKey).child(imageRef.key).put(file);
+    return new Promise((resolve, reject) => {
+
+      uploadTask.on('state_changed', (/*snapshot*/) => {
+        // progress, pause and cancel events
+      }, reject, () => {
+        // success! now let's get the download url...
+        const downloadUrl = uploadTask.snapshot.downloadURL;
+        this.fileInput.value = null;
+  
+        resolve({ url: downloadUrl, imageRef });
+      });
+    });
+  }
+
+  handleSubmit(form) { //TODO fix for edit upload.
+
+    const data = new FormData(form);
+    const item = {};
+    data.forEach((value, key) => item[key] = value || null); 
+    delete item['image-upload']; 
+    item.owner = auth.currentUser.uid;
+
+    items.child(`${this.key}`).set(item);
+    
+    this.submitButtons.classList.add('hidden');
+    this.title.readOnly = true;        
+    this.description.readOnly = true;
+    this.whishlist.readOnly = true;
+    this.category.disabled = true;
   }
 
   render() {
@@ -86,7 +109,7 @@ export default class Item {
       if(item.description) this.description.value = `${item.description}`;
       if(item.whishlist) this.whishlist.value = `${item.whishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
-      this.owner.textContent = item.owner; //TODO: fix to username once users are in system
+      this.owner.textContent = userdb.child(`${item.owner}`); //TODO: fix to username once users are in system
 
       const isOwner = item.owner === auth.currentUser.uid;
 
@@ -114,8 +137,9 @@ export default class Item {
           this.whishlist.readOnly = true;
           this.category.disabled = true;
         });
-        this.form.addEventListener('submit', () => {
-          // form logic
+        this.form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          this.handleSubmit(event.target);
         });
 
       }
