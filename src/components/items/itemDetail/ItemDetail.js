@@ -62,7 +62,7 @@ export default class Item {
     });
   }
 
-  handleSubmit(form) { //TODO fix for edit upload.
+  handleSubmit(form) {
 
     const data = new FormData(form);
     const item = {};
@@ -77,6 +77,7 @@ export default class Item {
     this.description.readOnly = true;
     this.whishlist.readOnly = true;
     this.category.disabled = true;
+    this.addImages.classList.add('hidden');
   }
 
   render() {
@@ -86,8 +87,8 @@ export default class Item {
     this.whishlist = dom.querySelector('#detail-whishlist');
     this.category = dom.querySelector('#category-assign');
     this.owner = dom.querySelector('#detail-owner');
-
     this.addImages = dom.querySelector('#image-upload');
+
     this.readonlys = dom.querySelectorAll('[readonly]');
     this.disabled = dom.querySelector('[disabled]');
     this.imageSection = dom.querySelector('section.images');
@@ -109,7 +110,9 @@ export default class Item {
       if(item.description) this.description.value = `${item.description}`;
       if(item.whishlist) this.whishlist.value = `${item.whishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
-      this.owner.textContent = userdb.child(`${item.owner}`); //TODO: fix to username once users are in system
+      userdb.child(item.owner).child('name').once('value', (data)=>{
+        this.owner.textContent = data.val();
+      });
 
       const isOwner = item.owner === auth.currentUser.uid;
 
@@ -136,6 +139,7 @@ export default class Item {
           this.description.readOnly = true;
           this.whishlist.readOnly = true;
           this.category.disabled = true;
+          this.addImages.classList.add('hidden');
         });
         this.form.addEventListener('submit', (event) => {
           event.preventDefault();

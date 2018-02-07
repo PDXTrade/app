@@ -49,12 +49,6 @@ export default class Images {
         if(!files || !files.length) return;
         this.handleUpload(files[0]);
       });
-
-      const embedForm = dom.querySelector('form');
-      embedForm.addEventListener('submit', event => {
-        event.preventDefault();
-        this.handleEmbed(event.target.elements.url.value);
-      });
     }
     else {
       dom.querySelector('.upload').remove();
