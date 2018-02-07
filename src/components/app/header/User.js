@@ -10,12 +10,15 @@ export default class User {
     const dom = template.clone();
     const user = auth.currentUser;
 
-    dom.querySelector('.user-name').textContent = user.displayName;
-    if(user.photoURL) dom.querySelector('.profile').src = user.photoURL;
+    dom.querySelector('.user-name').textContent = `Hi, ${user.displayName}`;
 
     dom.querySelector('.sign-out').addEventListener('click', () => {
       auth.signOut();
     });
+
+    const userLink = dom.querySelector('#user-link');
+    const userID = auth.currentUser.uid;
+    userLink.href = `#user/${userID}`;
 
     return dom;
   }

@@ -1,10 +1,10 @@
 import Template from '../Template';
 import html from './auth.html';
-import { auth, providers } from '../../services/firebase';
+import { auth, providers, db } from '../../services/firebase';
 import firebaseui from 'firebaseui';
 
 const ui = new firebaseui.auth.AuthUI(auth);
-
+const users = db.ref('users');
 const template = new Template(html);
 
 export default class Auth {
@@ -25,7 +25,13 @@ export default class Auth {
         signInSuccessUrl: `${origin}${pathname}${this.redirect}`,
         signInOptions: [
           providers.EmailAuthProvider.PROVIDER_ID,
-        ], 
+        ],
+        callbacks: {
+          signInSuccess(user) {
+            users.child(user.uid).set({ name: user.displayName });
+            return true;
+          }, 
+        },  
         credentialHelper: firebaseui.auth.CredentialHelper.NONE
       });
       
