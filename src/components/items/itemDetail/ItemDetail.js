@@ -18,7 +18,7 @@ export default class Item {
     this.itemImages = itemImages.child(key);
   }
 
-  removePet() {
+  removeItem() {
     if(!confirm('Are you sure you want to permanently remove this item?')) return;
 
     const storage = itemImageStorage.child(this.key);
@@ -49,31 +49,68 @@ export default class Item {
     this.description = dom.querySelector('#detail-description');
     this.whishlist = dom.querySelector('#detail-whishlist');
     this.category = dom.querySelector('#category-assign');
+    this.owner = dom.querySelector('#detail-owner');
 
-    const imageSection = dom.querySelector('section.images');
-    const removeButton = dom.querySelector('button.remove');
+    this.addImages = dom.querySelector('#image-upload');
+    this.readonlys = dom.querySelectorAll('[readonly]');
+    this.disabled = dom.querySelector('[disabled]');
+    this.imageSection = dom.querySelector('section.images');
+    this.removeButton = dom.querySelector('button.remove');
+    this.cancelButton = dom.querySelector('button.cancel');
+    this.submitButtons = dom.querySelector('label#submit-buttons');
+    this.saveButton = dom.querySelector('button.save');
+    this.editButton = dom.querySelector('button.edit');
+    this.tradeButton = dom.querySelector('button.trade');
+    this.form = dom.querySelector('#item-detail');
 
     this.onValue = this.item.on('value', data => {
       const item = data.val();
       // we might have deleted:
       if(!item) return;
 
-      this.title.placeholder = `${item.title}`;
-      if(item.description) this.description.placeholder = `${item.description}`;
+      //pre-populate the form with data in database
+      this.title.value = `${item.title}`;
+      if(item.description) this.description.value = `${item.description}`;
+      if(item.whishlist) this.whishlist.value = `${item.whishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
+      this.owner.textContent = item.owner; //TODO: fix to username once users are in system
 
       const isOwner = item.owner === auth.currentUser.uid;
 
-      this.images = new Images(this.key, isOwner);
-      imageSection.append(this.images.render());
+      // this.images = new Images(this.key, isOwner);
+      // this.imageSection.append(this.images.render());
 
-      if(isOwner) {
-        removeButton.addEventListener('click', () => {
-          this.removeitem();
+      if(isOwner) { //allow editing capabilities if owner
+        this.tradeButton.classList.add('hidden');
+        this.editButton.classList.remove('hidden');
+        this.editButton.addEventListener('click', (event)=> {
+          event.preventDefault();
+          this.submitButtons.classList.remove('hidden');
+          this.readonlys.forEach(item => item.readOnly = false);
+          this.disabled.disabled = false;
+          this.addImages.classList.remove('hidden');
         });
+        this.removeButton.addEventListener('click', () => {
+          this.removeItem();
+        });
+        this.cancelButton.addEventListener('click', () => {
+          event.preventDefault();
+          this.submitButtons.classList.add('hidden');
+          this.title.readOnly = true;        
+          this.description.readOnly = true;
+          this.whishlist.readOnly = true;
+          this.category.disabled = true;
+        });
+        this.form.addEventListener('submit', () => {
+          // form logic
+        });
+
       }
       else {
-        removeButton.remove();
+        this.removeButton.remove();
+        this.cancelButton.remove();
+        this.saveButton.remove();
+        this.editButton.remove();
       }
     });
 

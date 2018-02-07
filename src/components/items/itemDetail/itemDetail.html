@@ -6,11 +6,11 @@
 
   <p>Owner:<span id="detail-owner"></span></p>
 
-  <ul id="images"></ul>
+  <section id="images"></section>
 
-  <div id="image-upload">
+  <div id="image-upload" class="hidden">
     <label for="image-upload">Add Images:</label>
-    <input name="image-upload" type="file" accept="image/*" capture="camera"/>
+    <input id="detail-image-upload" name="image-upload" type="file" accept="image/*" capture="camera" multiple/>
   </div>
 
   <div>
@@ -19,12 +19,12 @@
   </div>
 
   <div>
-    <label id="detail-whishlist" for="whishlist">Whishlist</label>
-    <input required name="whishlist" readonly>
+    <label for="whishlist">Whishlist</label>
+    <input id="detail-whishlist" required name="whishlist" readonly>
   </div>
 
   <label for="category-assign">Category</label>
-  <select name="category-assign" id="category-assign">
+  <select name="category-assign" id="category-assign" disabled>
     <option value="">Choose category</option>
     <option value="Toys">Toys</option>
     <option value="Pets">Pets</option>
@@ -32,14 +32,14 @@
     <option value="Electronics">Electronics</option>
   </select>
 
-  <label id="submit-button">
-    <button type="submit">Add</button>
-    <button type="button">Cancel</button>
-    <button type="button">Delete</button>
+  <label id="submit-buttons" class="hidden">
+    <button type="submit" class="save">Save</button>
+    <button type="button" class="cancel">Cancel</button>
+    <button type="button" class="remove">Delete</button>
   </label>
 </form>
 
 <div id="item-page-buttons">
-  <button type="button">Trade</button>
-  <button type="button">Edit</button>
+  <button type="button" class="trade">Trade</button>
+  <button type="button" class="edit hidden">Edit</button>
 </div>
