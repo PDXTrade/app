@@ -49,12 +49,6 @@ export default class Images {
         if(!files || !files.length) return;
         this.handleUpload(files[0]);
       });
-
-      const embedForm = dom.querySelector('form');
-      embedForm.addEventListener('submit', event => {
-        event.preventDefault();
-        this.handleEmbed(event.target.elements.url.value);
-      });
     }
     else {
       dom.querySelector('.upload').remove();
@@ -63,7 +57,7 @@ export default class Images {
     const ul = dom.querySelector('ul');
     const map = new Map();
 
-    this.childAdded = this.petImages.on('child_added', data => {
+    this.childAdded = this.itemsImages.on('child_added', data => {
       const image = new Image(data.val(), this.editable ? () => this.handleRemove(data.key) : null);
       const imageDom = image.render();
       map.set(data.key, {
@@ -73,7 +67,7 @@ export default class Images {
       ul.appendChild(imageDom);
     });
 
-    this.childRemoved = this.petImages.on('child_removed', data => {
+    this.childRemoved = this.itemsImages.on('child_removed', data => {
       const toRemove = map.get(data.key);
       toRemove.nodes.forEach(node => node.remove());
       // toRemove.component.unrender();

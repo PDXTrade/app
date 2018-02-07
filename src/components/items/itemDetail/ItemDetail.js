@@ -10,6 +10,8 @@ const items = db.ref('items');
 const itemImages = db.ref('itemImages');
 const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
+const userdb = db.ref('users');
+const itemsByCategory = db.ref('itemsByCategory');
 
 export default class Item {
   constructor(key) {
@@ -18,8 +20,8 @@ export default class Item {
     this.itemImages = itemImages.child(key);
   }
 
-  removePet() {
-    if(!confirm('Are you sure you want to permanently remove this item?')) return;
+  removeItem() {
+    if(!confirm('Are you sure you want to permanently delete this item?')) return;
 
     const storage = itemImageStorage.child(this.key);
     storage.delete()
@@ -32,7 +34,6 @@ export default class Item {
       [items.child(this.key).path]: null,
       [itemImages.child(this.key).path]: null,
       [itemsByUser.child(auth.currentUser.uid).child(this.key).path]: null
-      //TODO: remove from categories
     };  
   
     db.ref().update(updates)
@@ -40,7 +41,43 @@ export default class Item {
       .catch(console.error);
     // TODO:
     // .catch(err => this.error.textContent = err);
+  }
 
+  handleUpload(itemKey, file) { //TODO fix for edit upload.
+    
+    const imageRef = itemImages.child(itemKey).push();
+
+    const uploadTask = itemImageStorage.child(itemKey).child(imageRef.key).put(file);
+    return new Promise((resolve, reject) => {
+
+      uploadTask.on('state_changed', (/*snapshot*/) => {
+        // progress, pause and cancel events
+      }, reject, () => {
+        // success! now let's get the download url...
+        const downloadUrl = uploadTask.snapshot.downloadURL;
+        this.fileInput.value = null;
+  
+        resolve({ url: downloadUrl, imageRef });
+      });
+    });
+  }
+
+  handleSubmit(form) {
+
+    const data = new FormData(form);
+    const item = {};
+    data.forEach((value, key) => item[key] = value || null); 
+    delete item['image-upload']; 
+    item.owner = auth.currentUser.uid;
+
+    items.child(`${this.key}`).set(item);
+    
+    this.submitButtons.classList.add('hidden');
+    this.title.readOnly = true;        
+    this.description.readOnly = true;
+    this.whishlist.readOnly = true;
+    this.category.disabled = true;
+    this.addImages.classList.add('hidden');
   }
 
   render() {
@@ -49,31 +86,72 @@ export default class Item {
     this.description = dom.querySelector('#detail-description');
     this.whishlist = dom.querySelector('#detail-whishlist');
     this.category = dom.querySelector('#category-assign');
+    this.owner = dom.querySelector('#detail-owner');
+    this.addImages = dom.querySelector('#image-upload');
 
-    const imageSection = dom.querySelector('section.images');
-    const removeButton = dom.querySelector('button.remove');
+    this.readonlys = dom.querySelectorAll('[readonly]');
+    this.disabled = dom.querySelector('[disabled]');
+    this.imageSection = dom.querySelector('section.images');
+    this.removeButton = dom.querySelector('button.remove');
+    this.cancelButton = dom.querySelector('button.cancel');
+    this.submitButtons = dom.querySelector('label#submit-buttons');
+    this.saveButton = dom.querySelector('button.save');
+    this.editButton = dom.querySelector('button.edit');
+    this.tradeButton = dom.querySelector('button.trade');
+    this.form = dom.querySelector('#item-detail');
 
     this.onValue = this.item.on('value', data => {
       const item = data.val();
       // we might have deleted:
       if(!item) return;
 
-      this.title.placeholder = `${item.title}`;
-      if(item.description) this.description.placeholder = `${item.description}`;
+      //pre-populate the form with data in database
+      this.title.value = `${item.title}`;
+      if(item.description) this.description.value = `${item.description}`;
+      if(item.whishlist) this.whishlist.value = `${item.whishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
+      userdb.child(item.owner).child('name').once('value', (data)=>{
+        this.owner.textContent = data.val();
+      });
 
       const isOwner = item.owner === auth.currentUser.uid;
 
       this.images = new Images(this.key, isOwner);
-      imageSection.append(this.images.render());
+      this.imageSection.append(this.images.render());
 
-      if(isOwner) {
-        removeButton.addEventListener('click', () => {
-          this.removeitem();
+      if(isOwner) { //allow editing capabilities if owner
+        this.tradeButton.classList.add('hidden');
+        this.editButton.classList.remove('hidden');
+        this.editButton.addEventListener('click', (event)=> {
+          event.preventDefault();
+          this.submitButtons.classList.remove('hidden');
+          this.readonlys.forEach(item => item.readOnly = false);
+          this.disabled.disabled = false;
+          this.addImages.classList.remove('hidden');
         });
+        this.removeButton.addEventListener('click', () => {
+          this.removeItem();
+        });
+        this.cancelButton.addEventListener('click', () => {
+          event.preventDefault();
+          this.submitButtons.classList.add('hidden');
+          this.title.readOnly = true;        
+          this.description.readOnly = true;
+          this.whishlist.readOnly = true;
+          this.category.disabled = true;
+          this.addImages.classList.add('hidden');
+        });
+        this.form.addEventListener('submit', (event) => {
+          event.preventDefault();
+          this.handleSubmit(event.target);
+        });
+
       }
       else {
-        removeButton.remove();
+        this.removeButton.remove();
+        this.cancelButton.remove();
+        this.saveButton.remove();
+        this.editButton.remove();
       }
     });
 
