@@ -1,7 +1,7 @@
-import Template from '../../Template';
+import Template from '../../../Template';
 import html from './image.html';
 import './image.css';
-import { getUrl } from '../../../services/cloudinary';
+import { getUrl } from '../../../../services/cloudinary';
 
 const template = new Template(html);
 

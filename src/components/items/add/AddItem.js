@@ -10,12 +10,9 @@ const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
 
 export default class AddItem {
-  constructor(onAdd) {
-    this.onAdd = onAdd;
-    const currentUser = auth.currentUser;
-    // this.myItems = itemsByUser.child(currentUser.uid);
-    auth.onAuthStateChanged( user => {
-      if (user) { this.myItems = itemsByUser.child(auth.currentUser.uid) }
+  constructor() {
+    auth.onAuthStateChanged(user => {
+      if(user) { this.myItems = itemsByUser.child(auth.currentUser.uid) }
     });
   }
   handleUpload(itemKey, file) {

@@ -1,8 +1,10 @@
-<form>
+<form id="item-detail">
   <div>
     <label for="title" class="clip">Title</label>
-    <input required name="title">
+    <input id="detail-title" required name="title" readonly>
   </div>
+
+  <p>Owner:<span id="detail-owner"></span></p>
 
   <ul id="images"></ul>
 
@@ -12,22 +14,22 @@
   </div>
 
   <div>
-    <label for="description" class="clip">Description</label>
-    <input required name="description">
+    <label for="description">Description</label>
+    <input id="detail-description" required name="description" readonly>
   </div>
 
   <div>
-    <label for="whishlist" class="clip">Whishlist</label>
-    <input required name="whishlist">
+    <label id="detail-whishlist" for="whishlist">Whishlist</label>
+    <input required name="whishlist" readonly>
   </div>
 
-  <label for="category-assign" class="clip">Category</label>
+  <label for="category-assign">Category</label>
   <select name="category-assign" id="category-assign">
     <option value="">Choose category</option>
-    <option value="toys">Toys</option>
-    <option value="pets">Pets</option>
-    <option value="vehicles">Vehicles</option>
-    <option value="electronics">Electronics</option>
+    <option value="Toys">Toys</option>
+    <option value="Pets">Pets</option>
+    <option value="Vehicles">Vehicles</option>
+    <option value="Electronics">Electronics</option>
   </select>
 
   <label id="submit-button">
