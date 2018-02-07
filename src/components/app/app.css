@@ -1,5 +1,7 @@
 @import '../variables.css';
 
+@import url('https://fonts.googleapis.com/css?family=Barlow+Condensed:300,400,400i,600,700');
+
 .hidden {
   display: none;
 }

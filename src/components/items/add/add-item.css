@@ -1,0 +1,52 @@
+@import '../../variables.css';
+
+form, .image-upload, .add-label {width: 95%;}
+
+form, .image-upload, .add-label > input, label > button {  border-radius: 5px;
+}
+
+form, .image-upload, .add-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  margin: 2% auto;
+  padding: 5% 3%;
+  font: 600 1.7rem/1.5 $header-font;
+  color: $dark;
+  background: $light-red;
+}
+
+.image-upload {padding-bottom: 5%;}
+
+.image-upload > input {
+  background: $white;
+  height: 2rem;
+  margin-top: .9rem;
+}
+
+.add-label {margin-top: .8rem;}
+
+.add-label > input {
+  width: 100%;
+  height: 1.5rem;
+  display: block;
+  margin-top: .5rem;
+  border: none;
+}
+
+#submit-button { width: 100%; margin-top: 3rem;}
+
+label > button {
+  background: $red;
+  color: $light;
+  border: none;
+  height: 3rem;
+  width: 100%;
+  margin-top: .5rem;
+  font-size: 1.2rem;
+}
+
+

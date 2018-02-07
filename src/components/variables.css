@@ -1,5 +1,10 @@
-$light-gray: #E8F2F2;
-$red: #D64F3E;
+$light: #FAF5F5;
+$light-red: #F5E6E6;
+$red: #D6503E;
+$dark: #3C3232;
+
+$header-font: 'Open Sans', sans-serif;
+
 $white: #FCFCFC;
 
 $content-padding: .5rem 1rem;
