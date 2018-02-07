@@ -15,11 +15,8 @@ export default class UserPage {
   
   render() { 
     const dom = template.clone();
-    const user = auth.currentUser;
-    const userList = new ItemList(userItems.key);
-
+  
     this.header = dom.querySelector('#username-header');
-    this.header.textContent = user.displayName;
     this.section = dom.querySelector('#user-item-list');
 
 
