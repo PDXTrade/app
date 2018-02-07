@@ -4,27 +4,29 @@ import './user-page.css';
 import ItemList from '../items/list/ItemList';
 
 import { db } from '../../services/firebase';
-import { auth } from '../../services/firebase';
 
 const template = new Template(html);
-const userItems = db.ref('itemsByUser');
+
+const key = window.location.hash.split('/')[1];
+const userItems = db.ref('itemsByUser').child(key);
 
 export default class UserPage {
-  constructor() {
-  }
   
   render() { 
+
     const dom = template.clone();
-  
+    
     this.header = dom.querySelector('#username-header');
-    this.section = dom.querySelector('#user-item-list');
-
-
+    this.section = dom.querySelector('#user-item-list');    
+    
+    const userList = new ItemList(userItems).render();
+    this.section.append(userList);
+    
     return dom; 
   }
 
   unrender() {
-    window.removeEventListener('hashchange', this.hashChange);
+    // window.removeEventListener('hashchange', this.hashChange);
   }
 
 

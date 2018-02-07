@@ -2,7 +2,7 @@ import Template from '../Template';
 import html from './items.html';
 import ItemList from './list/ItemList';
 import AddItem from './add/AddItem';
-import { db } from '../../services/firebase';
+import { db, auth } from '../../services/firebase';
 import ItemDetail from './itemDetail/ItemDetail';
 
 const template = new Template(html);
@@ -61,6 +61,7 @@ export default class Items {
     this.setChildPage();
 
     return dom; 
+
   }
 
   unrender() {
