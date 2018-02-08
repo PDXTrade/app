@@ -1,6 +1,7 @@
 ul.item-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  
+  grid-template-columns: repeat(auto-fill, minmax(auto, 2fr));
+  grid-gap: 5px;
+
 
 }
