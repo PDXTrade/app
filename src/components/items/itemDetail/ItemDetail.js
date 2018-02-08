@@ -122,6 +122,7 @@ export default class Item {
         this.editButton.classList.remove('hidden');
         this.editButton.addEventListener('click', (event)=> {
           event.preventDefault();
+          this.editButton.classList.add('hidden');
           this.submitButtons.classList.remove('hidden');
           this.readonlys.forEach(item => item.readOnly = false);
           this.disabled.disabled = false;
@@ -131,6 +132,7 @@ export default class Item {
         });
         this.cancelButton.addEventListener('click', () => {
           event.preventDefault();
+          this.editButton.classList.remove('hidden');
           this.submitButtons.classList.add('hidden');
           this.title.readOnly = true;        
           this.description.readOnly = true;
