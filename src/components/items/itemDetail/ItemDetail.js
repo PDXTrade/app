@@ -12,7 +12,7 @@ const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
 const userdb = db.ref('users');
 
-export default class Item {
+export default class ItemDetail {
   constructor(key) {
     this.key = key;
     this.item = items.child(key);
