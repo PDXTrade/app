@@ -15,7 +15,7 @@ const map = new Map();
 map.set('#login', { Component: Auth, isPublic: true });
 map.set('#items', { Component: Items, isPublic: true });
 map.set('#user', { Component: UserPage, isPublic: true });
-map.set('#trade', { Component: Trade, isPublic: false });
+map.set('#trade', { Component: Trade, isPublic: true });
 
 const homepage = { Component: Items, isPublic: true };
 

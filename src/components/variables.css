@@ -5,6 +5,11 @@ $dark-gray: #211717;
 $darkest-gray: #0C0101;
 $white: #FCFCFC;
 
+$base-white: rgb(250,250,250);
+$action-red: rgb(214,80,62);
+$base-dark: rgb(35,5,5); 
+$form-focus: rgb(240,240,240);
+
 $header-font: 'Open Sans', sans-serif;
 $content-padding: .5rem 1rem;
 

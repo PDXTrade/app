@@ -1,0 +1,11 @@
+#item {
+  /* display: flex;
+  flex-direction: column; */
+  h2 {
+    /* align-self: baseline; */
+    font-size: 1rem;
+  }
+  img {
+    
+  }
+}

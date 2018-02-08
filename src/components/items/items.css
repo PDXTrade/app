@@ -1,1 +1,10 @@
 @import '../variables.css';
+
+h1, #list-view {
+  /* background: $base-white; */
+  padding: 2%;
+  /* border-radius: 1.5rem; */
+}
+
+h1 {margin: 3% auto 0;}
+
