@@ -8,43 +8,40 @@ const template = new Template(html);
 const items = db.ref('items');
 const itemImages = db.ref('itemImages');
 
-export default class Item {
-  constructor(key) {
+export default class TradeItem {
+  constructor(key, name, selectedItem) {
     this.key = key;
     this.item = items.child(key);
     this.itemImages = itemImages.child(key).limitToFirst(1);
-
-    
+    this.name = name;
+    this.selectedItem = selectedItem || null;
   }
 
   update(item) {
-    this.caption.textContent = `${item.title}`;
+    this.label.textContent = `${item.title}`;
     this.image.alt = item.title;
+    if(this.selectedItem === this.key) this.input.checked = true; //checks the handed down item
   }
 
   render() {
     const dom = template.clone();
-    // const routes = window.location.hash.split('/');
-    // const route = routes[0];
-    
-    // if(route === '#trade') {
-    //   // apply checkbox to page
-    //   const itemSelect = dom.querySelector('.item-check');
-    //   const checkBox = document.createElement('input');
-    //   checkBox.type = 'checkbox';
-    //   itemSelect.appendChild(checkBox);
-    // }
   
-    dom.querySelector('a').href = `#items/item/${this.key}`;
-    this.caption = dom.querySelector('h2');
+    this.aTag = dom.querySelector('a');
     this.image = dom.querySelector('img');
+    this.input = dom.querySelector('input');
+    this.label = dom.querySelector('label');
+
+    this.input.setAttribute('value', this.key);
+    this.aTag.href = `#items/item/${this.key}`;
+    this.input.setAttribute('name', this.name);
+    this.label.setAttribute('for', this.key);
 
     this.onValue = this.item.on('value', data => {
       this.update(data.val());
     });
     
     this.onImageValue = this.itemImages.on('child_added', data => {
-      this.image.src = getURL(data.val(), 'c_fill,c_scale,w_150');
+      this.image.src = getURL(data.val(), 'c_fill,q_auto,w_300,h_300');
     });
 
     return dom;

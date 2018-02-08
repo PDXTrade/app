@@ -39,6 +39,7 @@ header {
     width: 100%;
     background: $base-white;
     font-size: .7rem;
+
     top: 1rem;
     padding: .5rem;
     ul {
