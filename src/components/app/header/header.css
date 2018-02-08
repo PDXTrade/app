@@ -1,7 +1,7 @@
 @import '../../variables.css';
 
 header {
-  background: $light-gray;
+  background: $base-white;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,7 +11,7 @@ header {
   .user-nav {
     padding-right: .5rem;
     h3 {
-      font-size: 1em;
+      font-size: .8em;
       text-align: right;
     }
     a:hover {
@@ -19,20 +19,24 @@ header {
     }
     .header-buttons {
       text-align: right;
+      font-size: .7em;
+      display: flex;
+      flex-direction: column;
+      .sign-out {margin-bottom: 5px;}
     }
   }
   #logo {
     img {
       display: block;
-      min-width: 110px;
-      width: 110px;
+      min-width: 100px;
+      width: 100px;
     }
   }
   #category-nav {
     position: absolute;
     width: 100%;
-    background: rgba(33,23,23,.8);
-    font-size: 1rem;
+    background: $base-white;
+    font-size: .7rem;
     top: 1rem;
     padding: .5rem;
     ul {
@@ -42,9 +46,9 @@ header {
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: $light-gray;
+        color: $base-dark;
         &:hover {
-          color: $red;
+          color: $action-red;
         }
       }
     }
@@ -107,7 +111,7 @@ header {
       animation: none;   
     }
     #category-nav {
-      background: rgba(33,23,23,1);
+      background: $base-white;
     }
   }
 }

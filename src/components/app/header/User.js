@@ -10,7 +10,7 @@ export default class User {
     const dom = template.clone();
     const user = auth.currentUser;
 
-    dom.querySelector('.user-name').textContent = `Hi, ${user.displayName}`;
+    dom.querySelector('.user-name').textContent = `hi, ${user.displayName}`;
 
     dom.querySelector('.sign-out').addEventListener('click', () => {
       auth.signOut();
