@@ -1,4 +1,5 @@
 import Template from '../Template';
+import './items.css';
 import html from './items.html';
 import ItemList from './list/ItemList';
 import AddItem from './add/AddItem';

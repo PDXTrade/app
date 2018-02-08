@@ -12,6 +12,7 @@ body {
   background: $white;
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
   font-size: $fluidFontSize;
+  color: $darkest-gray;
   line-height: 1.5;
   hyphens: auto;
 }

@@ -5,11 +5,17 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  button {
+    font-size: 1rem;
+  }
   .user-nav {
     padding-right: .5rem;
     h3 {
       font-size: 1em;
       text-align: right;
+    }
+    a:hover {
+      text-decoration: underline;
     }
     .header-buttons {
       text-align: right;
@@ -37,6 +43,9 @@ header {
         flex-direction: column;
         align-items: center;
         color: $light-gray;
+        &:hover {
+          color: $red;
+        }
       }
     }
   }
