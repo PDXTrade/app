@@ -113,9 +113,10 @@ export default class Item {
       userdb.child(item.owner).child('name').once('value', (data)=>{
         this.owner.textContent = data.val();
       });
-
       //add images
-      const isOwner = item.owner === auth.currentUser.uid;
+      const ownerExists = (auth.currentUser) ? auth.currentUser.uid : false;
+      const isOwner = item.owner === ownerExists;
+      console.log(isOwner);
       this.images = new Images(this.key, isOwner);
       this.imageSection.append(this.images.render());
 

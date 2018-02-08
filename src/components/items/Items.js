@@ -11,7 +11,6 @@ const toys = db.ref('items').orderByChild('category').equalTo('Toys');
 const electronics = db.ref('items').orderByChild('category').equalTo('Electronics');
 const pets = db.ref('items').orderByChild('category').equalTo('Pets');
 const vehicles = db.ref('items').orderByChild('category').equalTo('Vehicles');
-const user = auth.currentUser;
 
 export default class Items {
   constructor() {
@@ -41,12 +40,12 @@ export default class Items {
       childComponent = new ItemList(electronics);
       this.header.textContent = `${childPage}`;
     } else if(childPage === 'addItem') {
-      if(user) { //prevents no user from seeing add item
+      if(auth.currentUser) { //prevents no user from seeing add item
         childComponent = new AddItem();
         this.header.textContent = 'New Item';
         this.paragraph.textContent = 'Create a new item to trade';
       } else {
-        window.location.hash = 'login';
+        return window.location.hash = `#login/${encodeURIComponent('#items/addItem')}`;
       }
     } else if(childPage === 'item') {
       childComponent = new ItemDetail(routes[2]); //selects key from route split

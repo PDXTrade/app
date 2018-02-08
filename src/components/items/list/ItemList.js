@@ -44,6 +44,5 @@ export default class ItemList {
   unrender() {
     this.list.off('child_added', this.childAdded);
     this.list.off('child_removed', this.childRemoved);
-    this.map.forEach(({ component }) => component.unrender());
   }
 }
