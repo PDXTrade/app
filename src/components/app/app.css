@@ -1,7 +1,44 @@
 @import '../variables.css';
 
-@import url('https://fonts.googleapis.com/css?family=Barlow+Condensed:300,400,400i,600,700');
+#root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-areas:
+  "header"
+  "main";
+  grid-template-rows: auto 1fr;
+  hyphens: auto;
+}
+
+ul {
+  list-style: none;
+}
+
+#header { grid-area: header; } 
+#main { grid-area: main; } 
+
+main {
+  width: 80%;
+  margin: 0 auto;
+  .footer-button {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: auto;
+    z-index: 100;
+    background: $red;
+  }
+}
 
 .hidden {
   display: none;
+}
+
+@media (min-width:600px) {
+
+  main {
+    margin-top: 4rem;
+  }
+
 }

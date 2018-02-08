@@ -1,12 +1,11 @@
-$light: #FAF5F5;
+$light-gray: #EDEDED;
 $light-red: #F5E6E6;
-$red: #D6503E;
-$dark: #3C3232;
-
-$header-font: 'Open Sans', sans-serif;
-
+$red: #D64F3E;
+$dark-gray: #211717;
+$darkest-gray: #0C0101;
 $white: #FCFCFC;
 
+$header-font: 'Open Sans', sans-serif;
 $content-padding: .5rem 1rem;
 
 

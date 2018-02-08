@@ -38,11 +38,9 @@ export default class Item {
     db.ref().update(updates)
       .then(() => window.location.hash = '#items')
       .catch(console.error);
-    // TODO:
-    // .catch(err => this.error.textContent = err);
   }
 
-  handleUpload(itemKey, file) { //TODO fix for edit upload.
+  handleUpload(itemKey, file) {
     
     const imageRef = itemImages.child(itemKey).push();
 
