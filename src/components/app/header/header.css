@@ -16,9 +16,11 @@ header {
     }
   }
   #logo {
-    display: block;
-    min-width: 110px;
-    width: 110px;
+    img {
+      display: block;
+      min-width: 110px;
+      width: 110px;
+    }
   }
   #category-nav {
     position: absolute;
@@ -79,5 +81,24 @@ header {
   }
   100% {
     transform: translate(0, -200%);
+  }
+}
+
+@media (min-width:600px) {
+  header {
+    #category-accordian {
+      display: none;
+    }
+    #logo {
+      padding-left: .5rem;
+    }
+    .hide {
+      opacity: 1;
+      transform: translate(0, 130%);   
+      animation: none;   
+    }
+    #category-nav {
+      background: rgba(33,23,23,1);
+    }
   }
 }

@@ -30,14 +30,18 @@ export default class Items {
     if(childPage === 'Vehicles') {
       childComponent = new ItemList(vehicles);
       this.header.textContent = `${childPage}`;
+      this.paragraph.textContent = 'Items in the vehicles category';
     } else if(childPage === 'Toys') {
       childComponent = new ItemList(toys);
       this.header.textContent = `${childPage}`;
+      this.paragraph.textContent = 'Items in the toys category';
     } else if(childPage === 'Pets') {
       childComponent = new ItemList(pets);
+      this.paragraph.textContent = 'Items in the pets category';      
       this.header.textContent = `${childPage}`;
     } else if(childPage === 'Electronics') {
       childComponent = new ItemList(electronics);
+      this.paragraph.textContent = 'Items in the electronics category';      
       this.header.textContent = `${childPage}`;
     } else if(childPage === 'addItem') {
       if(auth.currentUser) { //prevents no user from seeing add item
@@ -54,6 +58,8 @@ export default class Items {
     } else {
       childComponent = new ItemList();
       this.header.textContent = 'All Items';
+      this.paragraph.textContent = '';      
+      
     }
     removeChildren(this.section);
     this.childComponent = childComponent;
