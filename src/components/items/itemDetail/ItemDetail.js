@@ -2,8 +2,8 @@ import Template from '../../Template';
 import html from './itemDetail.html';
 import './itemDetail.css';
 import { db, auth, storage } from '../../../services/firebase';
-import { getUrl } from '../../../services/cloudinary';
 import Images from './images/Images';
+import { removeChildren } from '../../dom';
 
 const template = new Template(html);
 const items = db.ref('items');
@@ -11,7 +11,6 @@ const itemImages = db.ref('itemImages');
 const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
 const userdb = db.ref('users');
-const itemsByCategory = db.ref('itemsByCategory');
 
 export default class Item {
   constructor(key) {
@@ -70,14 +69,13 @@ export default class Item {
     delete item['image-upload']; 
     item.owner = auth.currentUser.uid;
 
-    items.child(`${this.key}`).set(item);
+    items.child(this.key).set(item);
     
     this.submitButtons.classList.add('hidden');
     this.title.readOnly = true;        
     this.description.readOnly = true;
     this.whishlist.readOnly = true;
     this.category.disabled = true;
-    this.addImages.classList.add('hidden');
   }
 
   render() {
@@ -87,7 +85,6 @@ export default class Item {
     this.whishlist = dom.querySelector('#detail-whishlist');
     this.category = dom.querySelector('#category-assign');
     this.owner = dom.querySelector('#detail-owner');
-    this.addImages = dom.querySelector('#image-upload');
 
     this.readonlys = dom.querySelectorAll('[readonly]');
     this.disabled = dom.querySelector('[disabled]');
@@ -113,10 +110,11 @@ export default class Item {
       userdb.child(item.owner).child('name').once('value', (data)=>{
         this.owner.textContent = data.val();
       });
-
-      const isOwner = item.owner === auth.currentUser.uid;
-
-      this.images = new Images(this.key, isOwner);
+      //add images
+      const ownerExists = (auth.currentUser) ? auth.currentUser.uid : false;
+      const isOwner = item.owner === ownerExists;
+      this.images = new Images(this.key, isOwner, this.editButton, this.cancelButton, this.form);
+      removeChildren(this.imageSection);
       this.imageSection.append(this.images.render());
 
       if(isOwner) { //allow editing capabilities if owner
@@ -124,22 +122,23 @@ export default class Item {
         this.editButton.classList.remove('hidden');
         this.editButton.addEventListener('click', (event)=> {
           event.preventDefault();
+          this.editButton.classList.add('hidden');
           this.submitButtons.classList.remove('hidden');
           this.readonlys.forEach(item => item.readOnly = false);
           this.disabled.disabled = false;
-          this.addImages.classList.remove('hidden');
         });
         this.removeButton.addEventListener('click', () => {
           this.removeItem();
         });
         this.cancelButton.addEventListener('click', () => {
           event.preventDefault();
+          this.editButton.classList.remove('hidden');
           this.submitButtons.classList.add('hidden');
           this.title.readOnly = true;        
           this.description.readOnly = true;
           this.whishlist.readOnly = true;
           this.category.disabled = true;
-          this.addImages.classList.add('hidden');
+
         });
         this.form.addEventListener('submit', (event) => {
           event.preventDefault();
@@ -159,7 +158,7 @@ export default class Item {
   }
 
   unrender() {
-    items.child(this.key).off('value', this.onValue);
+    this.item.off('value', this.onValue);
     this.images.unrender();
   }
 }

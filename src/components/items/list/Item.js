@@ -51,7 +51,7 @@ export default class Item {
   }
 
   unrender() {
-    this.pet.off('value', this.onValue);
-    this.petImages.off('child_added', this.onImageValue);
+    this.item.off('value', this.onValue);
+    this.itemImages.off('child_added', this.onImageValue);
   }
 }

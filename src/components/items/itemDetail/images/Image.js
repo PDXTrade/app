@@ -1,7 +1,7 @@
 import Template from '../../../Template';
 import html from './image.html';
 import './image.css';
-import { getUrl } from '../../../../services/cloudinary';
+import { getURL } from '../../../../services/cloudinary';
 
 const template = new Template(html);
 
@@ -13,7 +13,7 @@ export default class Image {
 
   render() {
     const dom = template.clone();
-    dom.querySelector('img').src = getUrl(this.src, 'c_scale,w_150');
+    dom.querySelector('img').src = getURL(this.src, 'c_scale,w_150');
 
     const removeButton = dom.querySelector('button');
     

@@ -34,7 +34,6 @@ export default class Header {
         child.innerHTML = '<span class="fa fa-user"></span> Login';
         child.href = '#login';
         userItem.appendChild(child);
-        // tradesLink.classList.add('hidden');
         
       }
 

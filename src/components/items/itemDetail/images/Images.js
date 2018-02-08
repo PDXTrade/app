@@ -8,10 +8,13 @@ const itemImages = db.ref('itemImages');
 const itemImageStorage = storage.ref('items');
 
 export default class Images {
-  constructor(key, editable) {
+  constructor(key, editable, editButton, cancelButton, form) {
     this.itemsImages = itemImages.child(key);
     this.imageStorage = itemImageStorage.child(key);
     this.editable = editable;
+    this.editButton = editButton;
+    this.cancelButton = cancelButton;
+    this.form = form;
   }
 
   handleUpload(file) {
@@ -30,7 +33,7 @@ export default class Images {
   }
 
   handleRemove(imageKey) {
-    this.petImages.child(imageKey).remove();
+    this.itemsImages.child(imageKey).remove();
     const storage = this.imageStorage.child(imageKey);
     storage.delete()
       .catch(err => {
@@ -41,6 +44,7 @@ export default class Images {
 
   render() {
     const dom = template.clone();
+    this.uploadImages = dom.querySelector('section.upload');
     
     if(this.editable) {
       this.fileInput = dom.querySelector('input[type=file]');
@@ -48,6 +52,18 @@ export default class Images {
         const files = event.target.files;
         if(!files || !files.length) return;
         this.handleUpload(files[0]);
+      });
+      this.editButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.uploadImages.classList.remove('hidden');
+      });
+      this.cancelButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.uploadImages.classList.add('hidden');
+      });
+      this.form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        this.uploadImages.classList.add('hidden');
       });
     }
     else {
@@ -70,14 +86,13 @@ export default class Images {
     this.childRemoved = this.itemsImages.on('child_removed', data => {
       const toRemove = map.get(data.key);
       toRemove.nodes.forEach(node => node.remove());
-      // toRemove.component.unrender();
     });
 
     return dom;
   }
 
   unrender() {
-    this.petImages.on('child_added', this.childAdded);
-    this.petImages.on('child_removed', this.childRemoved);
+    this.itemsImages.on('child_added', this.childAdded);
+    this.itemsImages.on('child_removed', this.childRemoved);
   }
 }
