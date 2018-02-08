@@ -3,13 +3,14 @@ import html from './items.html';
 import ItemList from './list/ItemList';
 import AddItem from './add/AddItem';
 import { db, auth } from '../../services/firebase';
+import { removeChildren } from '../dom';
 import ItemDetail from './itemDetail/ItemDetail';
 
 const template = new Template(html);
-const vehicles = db.ref('Vehicles');
-const electronics = db.ref('Electronics');
-const toys = db.ref('Toys');
-const pets = db.ref('Pets');
+const toys = db.ref('items').orderByChild('category').equalTo('Toys');
+const electronics = db.ref('items').orderByChild('category').equalTo('Electronics');
+const pets = db.ref('items').orderByChild('category').equalTo('Pets');
+const vehicles = db.ref('items').orderByChild('category').equalTo('Vehicles');
 
 export default class Items {
   constructor() {
@@ -17,11 +18,14 @@ export default class Items {
     window.addEventListener('hashchange', this.hashChange);
   }
 
-  setChildPage() {
+  setChildPage() { //TODO: unrender on each page?
     const routes = window.location.hash.split('/');
     const childPage = routes[1] || '';
     if(this.childPage === childPage) return;
 
+    if(this.childComponent && this.childComponent.unrender) {
+      this.childComponent.unrender();
+    }
     let childComponent;
     if(childPage === 'Vehicles') {
       childComponent = new ItemList(vehicles);
@@ -36,9 +40,13 @@ export default class Items {
       childComponent = new ItemList(electronics);
       this.header.textContent = `${childPage}`;
     } else if(childPage === 'addItem') {
-      childComponent = new AddItem();
-      this.header.textContent = 'New Item';
-      this.paragraph.textContent = 'Create a new item to trade';
+      if(auth.currentUser) { //prevents no user from seeing add item
+        childComponent = new AddItem();
+        this.header.textContent = 'New Item';
+        this.paragraph.textContent = 'Create a new item to trade';
+      } else {
+        return window.location.hash = `#login/${encodeURIComponent('#items/addItem')}`;
+      }
     } else if(childPage === 'item') {
       childComponent = new ItemDetail(routes[2]); //selects key from route split
       this.header.textContent = '';
@@ -47,10 +55,10 @@ export default class Items {
       childComponent = new ItemList();
       this.header.textContent = 'All Items';
     }
-
-    this.section.textContent = '';
+    removeChildren(this.section);
     this.childComponent = childComponent;
     this.section.appendChild(childComponent.render());
+
   }
 
   render() { 

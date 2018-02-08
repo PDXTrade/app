@@ -6,7 +6,6 @@ import Auth from '../auth/Auth';
 import Header from './header/Header';
 import Items from '../items/Items';
 import UserPage from '../user/UserPage';
-// import Items from '../items/Items';
 import { auth } from '../../services/firebase';
 
 const template = new Template(html);

@@ -56,7 +56,7 @@ export default class AddItem {
 
         return db.ref().update(updates);
       })
-      .then(() => window.location.hash = '#items')
+      .then(() => window.location.hash = `#items/item/${ref.key}`)
       .catch(err => this.error.textContent = err);
   }
 
