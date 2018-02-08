@@ -159,7 +159,7 @@ export default class Item {
   }
 
   unrender() {
-    items.child(this.key).off('value', this.onValue);
+    this.item.off('value', this.onValue);
     this.images.unrender();
   }
 }

@@ -30,7 +30,7 @@ export default class Images {
   }
 
   handleRemove(imageKey) {
-    this.petImages.child(imageKey).remove();
+    this.itemsImages.child(imageKey).remove();
     const storage = this.imageStorage.child(imageKey);
     storage.delete()
       .catch(err => {
@@ -77,7 +77,7 @@ export default class Images {
   }
 
   unrender() {
-    this.petImages.on('child_added', this.childAdded);
-    this.petImages.on('child_removed', this.childRemoved);
+    this.itemsImages.on('child_added', this.childAdded);
+    this.itemsImages.on('child_removed', this.childRemoved);
   }
 }

@@ -24,6 +24,9 @@ export default class Items {
     const childPage = routes[1] || '';
     if(this.childPage === childPage) return;
 
+    if(this.childComponent && this.childComponent.unrender) {
+      this.childComponent.unrender();
+    }
     let childComponent;
     if(childPage === 'Vehicles') {
       childComponent = new ItemList(vehicles);
@@ -53,9 +56,10 @@ export default class Items {
       childComponent = new ItemList();
       this.header.textContent = 'All Items';
     }
-    this.section.textContent = '';
+    removeChildren(this.section);
     this.childComponent = childComponent;
     this.section.appendChild(childComponent.render());
+
   }
 
   render() { 

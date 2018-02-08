@@ -38,17 +38,12 @@ export default class ItemList {
       toRemove.component.unrender();
     });
 
-    this.childChange = this.list.on('child_changed', data => {
-      map.get(data.key).component.update(data.val());
-    });
-
     return dom;
   }
 
   unrender() {
-    items.off('child_added', this.childAdded);
-    items.off('child_removed', this.childRemoved);
-    items.off('child_changed', this.childChange);
+    this.list.off('child_added', this.childAdded);
+    this.list.off('child_removed', this.childRemoved);
     this.map.forEach(({ component }) => component.unrender());
   }
 }
