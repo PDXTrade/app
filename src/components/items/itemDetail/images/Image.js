@@ -13,7 +13,7 @@ export default class Image {
 
   render() {
     const dom = template.clone();
-    dom.querySelector('img').src = getURL(this.src, 'c_scale,w_150');
+    dom.querySelector('img').src = getURL(this.src, 'c_scale,w_300');
 
     const removeButton = dom.querySelector('button');
     

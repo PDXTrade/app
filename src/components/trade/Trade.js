@@ -7,13 +7,16 @@ import { db, auth } from '../../services/firebase';
 
 const template = new Template(html);
 const itemsByUser = db.ref('itemsByUser');
+const items = db.ref('items');
+const itemImages = db.ref('itemImages');
+// const itemImageStorage = storage.ref('items');
+const userdb = db.ref('users');
 
 
 export default class Trade {
-  constructor(theirKey, theirItemKey, theirName) {
-    // this.theirKey = theirKey;
-    this.theirName = theirName;
-    this.theirItemKey = theirItemKey;
+  constructor() {
+    const hash = window.location.hash.split('/');
+    this.desiredItemKey = hash[1];
   }
 
   render() {

@@ -15,7 +15,7 @@ const map = new Map();
 map.set('#login', { Component: Auth, isPublic: true });
 map.set('#items', { Component: Items, isPublic: true });
 map.set('#user', { Component: UserPage, isPublic: true });
-map.set('#trade', { Component: Trade, isPublic: false }); //TODO: fix login error
+map.set('#trade', { Component: Trade, isPublic: false });
 
 const homepage = { Component: Items, isPublic: true };
 
@@ -71,7 +71,6 @@ export default class App {
     this.footer = dom.querySelector('#footer');
     this.header = dom.querySelector('#header');
     this.main = dom.querySelector('main');
-    this.setPage();
 
     return dom;
   }
