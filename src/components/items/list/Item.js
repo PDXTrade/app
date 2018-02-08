@@ -34,6 +34,7 @@ export default class Item {
     //   checkBox.type = 'checkbox';
     //   itemSelect.appendChild(checkBox);
     // }
+  
     dom.querySelector('a').href = `#items/item/${this.key}`;
     this.caption = dom.querySelector('h2');
     this.image = dom.querySelector('img');

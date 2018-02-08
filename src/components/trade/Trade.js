@@ -2,7 +2,7 @@ import Template from '../Template';
 import html from './trade.html';
 import './trade.css';
 import UserPage from '../user/UserPage';
-import ItemList from '../items/list/ItemList';
+import TradeList from './trade-list/TradeList';
 import { db, auth } from '../../services/firebase';
 
 const template = new Template(html);
@@ -22,7 +22,7 @@ export default class Trade {
     this.mySection = dom.querySelector('.my-item-list');    
     
 
-    const myList = new ItemList(myItems).render();
+    const myList = new TradeList(myItems).render();
     this.mySection.append(myList);
 
     
