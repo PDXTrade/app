@@ -8,8 +8,10 @@ const template = new Template(html);
 const items = db.ref('items');
 
 export default class TradeList {
-  constructor(listRef) {
-    this.list = listRef || items;
+  constructor(listRef, name, selectedItem) {
+    this.list = listRef;
+    this.name = name;
+    this.selectedItem = selectedItem || null;
   }
 
   render() {
@@ -20,7 +22,7 @@ export default class TradeList {
     const map = new Map();
 
     this.childAdded = this.list.on('child_added', data => {
-      const item = new TradeItem(data.key);
+      const item = new TradeItem(data.key, this.name, this.selectedItem);
       const itemDom = item.render();
       map.set(data.key, {
         component: item,

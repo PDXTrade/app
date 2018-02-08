@@ -1,7 +1,1 @@
 @import '../variables.css';
-
-#list-view {
-  background: $light-gray;
-  padding: 1rem;
-  border-radius: 1.5rem;
-}

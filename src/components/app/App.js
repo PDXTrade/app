@@ -71,7 +71,6 @@ export default class App {
     this.footer = dom.querySelector('#footer');
     this.header = dom.querySelector('#header');
     this.main = dom.querySelector('main');
-    this.setPage();
 
     return dom;
   }

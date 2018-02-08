@@ -31,7 +31,8 @@ header {
   #category-nav {
     position: absolute;
     width: 100%;
-    background: rgba(33,23,23,.8);
+    background: rgba(33,23,23,.8); 
+    /* rgba(33,23,23,.8); */
     font-size: 1rem;
     top: 1rem;
     padding: .5rem;

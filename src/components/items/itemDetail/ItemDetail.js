@@ -11,8 +11,9 @@ const itemImages = db.ref('itemImages');
 const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
 const userdb = db.ref('users');
+const trades = db.ref('trades');
 
-export default class Item {
+export default class ItemDetail {
   constructor(key) {
     this.key = key;
     this.item = items.child(key);
@@ -76,6 +77,19 @@ export default class Item {
     this.category.disabled = true;
   }
 
+  handleTrade(desiredKey, desiredItemOwnerId, desiredItemOwnerUserName, myUserId, myUserName) {
+    const trade = trades.push();
+    return trade.set({
+      desiredOwnerKey: desiredItemOwnerId,
+      desiredOwnerName: desiredItemOwnerUserName,
+      offeredOwnerKey: myUserId,
+      offeredOwnerName: myUserName,
+      desiredItems: {
+        [desiredKey]: true
+      }
+    }).then(() => trade.key);
+  }
+
   render() {
     const dom = template.clone();
     this.title = dom.querySelector('#detail-title');
@@ -95,6 +109,8 @@ export default class Item {
     this.tradeButton = dom.querySelector('button.trade');
     this.form = dom.querySelector('#item-detail');
 
+    if(!auth.currentUser) this.tradeButton.classList.add('hidden');
+
     this.onValue = this.item.on('value', data => {
       const item = data.val();
       // we might have deleted:
@@ -107,6 +123,7 @@ export default class Item {
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
       userdb.child(item.owner).child('name').once('value', (data)=>{
         this.owner.textContent = data.val();
+        this.ownerName = data.val();
       });
       //add images
       const ownerExists = (auth.currentUser) ? auth.currentUser.uid : false;
@@ -115,7 +132,17 @@ export default class Item {
       removeChildren(this.imageSection);
       this.imageSection.append(this.images.render());
 
-      if(isOwner) { //allow editing capabilities if owner
+      //if trade button is clicked
+      this.tradeButton.addEventListener('click', (event)=> {
+        event.preventDefault();
+        this.handleTrade(this.key, item.owner, this.ownerName, auth.currentUser.uid, auth.currentUser.displayName)
+          .then((tradeHash) => {
+            window.location.hash = `trade/${tradeHash}`;
+          });
+      });
+
+      //allow editing capabilities if owner
+      if(isOwner) { 
         this.tradeButton.classList.add('hidden');
         this.editButton.classList.remove('hidden');
         this.editButton.addEventListener('click', (event)=> {
