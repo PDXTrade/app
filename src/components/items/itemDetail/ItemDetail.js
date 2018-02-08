@@ -12,6 +12,7 @@ const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
 const userdb = db.ref('users');
 const trades = db.ref('trades');
+const tradesByUser = db.ref('tradesByUser');
 
 export default class ItemDetail {
   constructor(key) {
@@ -73,12 +74,35 @@ export default class ItemDetail {
     this.submitButtons.classList.add('hidden');
     this.title.readOnly = true;        
     this.description.readOnly = true;
-    this.whishlist.readOnly = true;
+    this.wishlist.readOnly = true;
     this.category.disabled = true;
+  }
+
+  handleTradesByUsers(desiredItemOwnerId, myUserId, trade) {
+    const myRef = tradesByUser.child(desiredItemOwnerId);
+    const theirRef = tradesByUser.child(myUserId);
+    
+    const updates = {
+      [myRef.path]: { [trade.key]: true },
+      [theirRef.path]: { [trade.key]: true }
+    };
+
+    return db.ref().update(updates);
   }
 
   handleTrade(desiredKey, desiredItemOwnerId, desiredItemOwnerUserName, myUserId, myUserName) {
     const trade = trades.push();
+    this.handleTradesByUsers(desiredItemOwnerId, myUserId, trade);
+    // const myRef = tradesByUser.push(desiredItemOwnerId);
+    // const theirRef = tradesByUser.push(myUserId);
+    
+    // const updates = {
+    //   [myRef.path]: trade.key,
+    //   [theirRef.path]: trade.key
+    // };
+
+    // db.ref().update(updates);
+
     return trade.set({
       desiredOwnerKey: desiredItemOwnerId,
       desiredOwnerName: desiredItemOwnerUserName,
@@ -87,14 +111,15 @@ export default class ItemDetail {
       desiredItems: {
         [desiredKey]: true
       }
-    }).then(() => trade.key);
+    })
+      .then(() => trade.key);
   }
 
   render() {
     const dom = template.clone();
     this.title = dom.querySelector('#detail-title');
     this.description = dom.querySelector('#detail-description');
-    this.whishlist = dom.querySelector('#detail-whishlist');
+    this.wishlist = dom.querySelector('#detail-wishlist');
     this.category = dom.querySelector('#category-assign');
     this.owner = dom.querySelector('#detail-owner');
 
@@ -119,7 +144,7 @@ export default class ItemDetail {
       //pre-populate the form with data in database
       this.title.value = `${item.title}`;
       if(item.description) this.description.value = `${item.description}`;
-      if(item.whishlist) this.whishlist.value = `${item.whishlist}`;
+      if(item.wishlist) this.wishlist.value = `${item.wishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
       userdb.child(item.owner).child('name').once('value', (data)=>{
         this.owner.textContent = data.val();
@@ -161,7 +186,7 @@ export default class ItemDetail {
           this.submitButtons.classList.add('hidden');
           this.title.readOnly = true;        
           this.description.readOnly = true;
-          this.whishlist.readOnly = true;
+          this.wishlist.readOnly = true;
           this.category.disabled = true;
 
         });

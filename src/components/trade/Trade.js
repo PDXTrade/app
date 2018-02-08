@@ -16,17 +16,23 @@ export default class Trade {
   }
 
   handleSubmit(form) {
-    console.log(form);
-    const fieldset = form.querySelector('#my-fieldset');
-    const data = new FormData(fieldset);
-    console.log(data.getAll('this.key'));
+    const data = new FormData(form);
     const offer = {};
-    data.forEach((value, name) => offer[name] = value); 
-    console.log(offer);
-    
-    // offer.owner = auth.currentUser.uid;
-    // const ref = items.push();
-  };
+    data.forEach((value, name) => offer[value] = name); 
+    const myItems = {};
+    const theirItems = {};
+    for(let key in offer){
+      if(offer[key] === 'mine') myItems[key] = true;
+      else theirItems[key] = true;
+    }
+    // const promise1 = new Promise.resolve(this.trade.child('desiredItems').set(theirItems));
+    // const promise2 = new Promise.resolve(this.trade.child('offeredItems').set(myItems));
+
+    // return Promise.all(promise1, promise2);
+
+      // this.trade.child('offeredItems').set(myItems);
+      // this.trade.child('desiredItems').set(theirItems)
+  }
 
   render() {
     const dom = template.clone();
@@ -41,12 +47,11 @@ export default class Trade {
 
     this.myHeader.textContent = auth.currentUser.displayName;
 
-    const myList = new TradeList(myItems, auth.currentUser.uid).render();
+    const myList = new TradeList(myItems, 'mine').render();
     this.mySection.append(myList);
 
     this.onValue = this.trade.on('value', data => {
       const trade = data.val();
-      // console.log(trade.desiredItems.limitToFirst()); TODO: how to get item selected for trade
 
       //protect from deletion
       if(!trade) return;
@@ -54,16 +59,16 @@ export default class Trade {
 
       this.theirHeader.textContent = trade.desiredOwnerName;
       const theirItems = itemsByUser.child(trade.desiredOwnerKey);
-      const theirList = new TradeList(theirItems, trade.desiredOwnerKey, selectedItem).render();
+      const theirList = new TradeList(theirItems, 'theirs', selectedItem).render();
       this.theirSection.append(theirList);
 
     });
 
     this.form.addEventListener('submit', (event) => {
       event.preventDefault();
-      this.handleSubmit(event.target);
-    })
-      // .then(() => window.location.hash = 'items');
+      this.handleSubmit(event.target)
+        .then(() => window.location.hash = 'items');
+    });
 
     return dom;
   }
