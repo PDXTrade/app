@@ -15,7 +15,7 @@ const map = new Map();
 map.set('#login', { Component: Auth, isPublic: true });
 map.set('#items', { Component: Items, isPublic: true });
 map.set('#user', { Component: UserPage, isPublic: true });
-map.set('#trade', { Component: Trade, isPublic: true });
+map.set('#trade', { Component: Trade, isPublic: false });
 
 const homepage = { Component: Items, isPublic: true };
 
@@ -54,7 +54,7 @@ export default class App {
     let component = null;
 
     if(!isPublic && !this.user) {
-      window.location.hash = `#login/${encodedURIComponent(hash)}`;
+      window.location.hash = `#login/${encodeURIComponent(hash)}`;
     }
     else {
       component = new Component();
