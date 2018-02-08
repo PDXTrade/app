@@ -13,45 +13,16 @@ const pets = db.ref('items').orderByChild('category').equalTo('Pets');
 const vehicles = db.ref('items').orderByChild('category').equalTo('Vehicles');
 const user = auth.currentUser;
 
-// const map = new Map();
-// map.set('#items/addItem', { Component: AddItem, isPublic: false });
-
-// const homepage = { Component: Items, isPublic: true };
-
 export default class Items {
   constructor() {
     this.hashChange = () => this.setChildPage();
     window.addEventListener('hashchange', this.hashChange);
-
-    // let authed = false;
-
-    // auth.onAuthStateChanged(user => {
-    //   this.user = user;
-    //   if(!authed) {
-    //     authed = true;
-    //     this.setChildPage();
-    //   }
-    //   if(!user && !this.page.isPublic) {
-    //     window.location.hash = '#';
-    //   }
-    // });
   }
 
-  setChildPage() { //TODO, limit authorization on new item page
+  setChildPage() { //TODO: unrender on each page?
     const routes = window.location.hash.split('/');
     const childPage = routes[1] || '';
     if(this.childPage === childPage) return;
-
-    // if(this.page && this.page.component) this.page.component.unrender();
-    // removeChildren(this.section);
-
-    // const { Component, isPublic } = map.get(childPage) || homepage;
-
-    // let component = null;
-
-    // if(!isPublic && !this.user) {
-    //   window.location.hash = `#login/${encodedURIComponent(hash)}`;
-    // }
 
     let childComponent;
     if(childPage === 'Vehicles') {
@@ -67,7 +38,7 @@ export default class Items {
       childComponent = new ItemList(electronics);
       this.header.textContent = `${childPage}`;
     } else if(childPage === 'addItem') {
-      if(user) {
+      if(user) { //prevents no user from seeing add item
         childComponent = new AddItem();
         this.header.textContent = 'New Item';
         this.paragraph.textContent = 'Create a new item to trade';

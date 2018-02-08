@@ -70,7 +70,7 @@ export default class Item {
     delete item['image-upload']; 
     item.owner = auth.currentUser.uid;
 
-    items.child(`${this.key}`).set(item);
+    items.child(this.key).set(item);
     
     this.submitButtons.classList.add('hidden');
     this.title.readOnly = true;        
@@ -110,13 +110,12 @@ export default class Item {
       if(item.description) this.description.value = `${item.description}`;
       if(item.whishlist) this.whishlist.value = `${item.whishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
-      
       userdb.child(item.owner).child('name').once('value', (data)=>{
         this.owner.textContent = data.val();
       });
 
+      //add images
       const isOwner = item.owner === auth.currentUser.uid;
-
       this.images = new Images(this.key, isOwner);
       this.imageSection.append(this.images.render());
 
