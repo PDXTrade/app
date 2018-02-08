@@ -2,7 +2,7 @@ import Template from '../../Template';
 import html from './trade-list.html';
 import './trade-list.css';
 import { db } from '../../../services/firebase';
-import Item from '../../items/list/Item';
+import TradeItem from './TradeItem';
 
 const template = new Template(html);
 const items = db.ref('items');
@@ -15,19 +15,19 @@ export default class TradeList {
   render() {
     const dom = template.clone(); 
 
-    const ul = dom.querySelector('ul');
+    const tradeItem = dom.querySelector('div');
 
     const map = new Map();
 
     this.childAdded = this.list.on('child_added', data => {
-      const item = new Item(data.key);
+      const item = new TradeItem(data.key);
       const itemDom = item.render();
       map.set(data.key, {
         component: item,
         nodes: [...itemDom.childNodes]
       });
 
-      ul.appendChild(itemDom);
+      tradeItem.appendChild(itemDom);
     });
 
     this.childRemoved = this.list.on('child_removed', data => {
