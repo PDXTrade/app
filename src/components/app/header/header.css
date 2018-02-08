@@ -5,14 +5,28 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .user-nav {
+    padding-right: .5rem;
+    h3 {
+      font-size: 1em;
+      text-align: right;
+    }
+    .header-buttons {
+      text-align: right;
+    }
+  }
   #logo {
     display: block;
-    width: 120px;
+    min-width: 110px;
+    width: 110px;
   }
   #category-nav {
     position: absolute;
     width: 100%;
-    padding: 0 .5rem;
+    background: rgba(33,23,23,.8);
+    font-size: 1rem;
+    top: 1rem;
+    padding: .5rem;
     ul {
       display: flex;
       justify-content: space-around;
@@ -20,6 +34,7 @@ header {
         display: flex;
         flex-direction: column;
         align-items: center;
+        color: $light-gray;
       }
     }
   }
@@ -50,14 +65,14 @@ header {
   }
   100% {
     opacity: 1;
-    transform: translate(0, 170%);
+    transform: translate(0, 130%);
   }
 }
 
 @keyframes climbNav {
   0% {
     opacity: 1;
-    transform: translate(0, 170%);
+    transform: translate(0, 130%);
   }
   20% {
     opacity: 0;

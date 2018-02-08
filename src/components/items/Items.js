@@ -18,7 +18,7 @@ export default class Items {
     window.addEventListener('hashchange', this.hashChange);
   }
 
-  setChildPage() { //TODO: unrender on each page?
+  setChildPage() {
     const routes = window.location.hash.split('/');
     const childPage = routes[1] || '';
     if(this.childPage === childPage) return;

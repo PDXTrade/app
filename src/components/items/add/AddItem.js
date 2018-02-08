@@ -12,7 +12,7 @@ const itemImageStorage = storage.ref('items');
 export default class AddItem {
   constructor() {
     auth.onAuthStateChanged(user => {
-      if(user) { this.myItems = itemsByUser.child(auth.currentUser.uid) }
+      if(user) { this.myItems = itemsByUser.child(auth.currentUser.uid); }
     });
   }
   handleUpload(itemKey, file) {
