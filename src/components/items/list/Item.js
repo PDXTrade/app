@@ -13,6 +13,8 @@ export default class Item {
     this.key = key;
     this.item = items.child(key);
     this.itemImages = itemImages.child(key).limitToFirst(1);
+
+    
   }
 
   update(item) {
@@ -22,6 +24,17 @@ export default class Item {
 
   render() {
     const dom = template.clone();
+    // const routes = window.location.hash.split('/');
+    // const route = routes[0];
+    
+    // if(route === '#trade') {
+    //   // apply checkbox to page
+    //   const itemSelect = dom.querySelector('.item-check');
+    //   const checkBox = document.createElement('input');
+    //   checkBox.type = 'checkbox';
+    //   itemSelect.appendChild(checkBox);
+    // }
+  
     dom.querySelector('a').href = `#items/item/${this.key}`;
     this.caption = dom.querySelector('h2');
     this.image = dom.querySelector('img');
