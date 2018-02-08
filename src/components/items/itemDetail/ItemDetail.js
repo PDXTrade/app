@@ -2,8 +2,8 @@ import Template from '../../Template';
 import html from './itemDetail.html';
 import './itemDetail.css';
 import { db, auth, storage } from '../../../services/firebase';
-import { getUrl } from '../../../services/cloudinary';
 import Images from './images/Images';
+import { removeChildren } from '../../dom';
 
 const template = new Template(html);
 const items = db.ref('items');
@@ -11,7 +11,6 @@ const itemImages = db.ref('itemImages');
 const itemsByUser = db.ref('itemsByUser');
 const itemImageStorage = storage.ref('items');
 const userdb = db.ref('users');
-const itemsByCategory = db.ref('itemsByCategory');
 
 export default class Item {
   constructor(key) {
@@ -77,7 +76,6 @@ export default class Item {
     this.description.readOnly = true;
     this.whishlist.readOnly = true;
     this.category.disabled = true;
-    this.addImages.classList.add('hidden');
   }
 
   render() {
@@ -87,7 +85,6 @@ export default class Item {
     this.whishlist = dom.querySelector('#detail-whishlist');
     this.category = dom.querySelector('#category-assign');
     this.owner = dom.querySelector('#detail-owner');
-    this.addImages = dom.querySelector('#image-upload');
 
     this.readonlys = dom.querySelectorAll('[readonly]');
     this.disabled = dom.querySelector('[disabled]');
@@ -116,8 +113,8 @@ export default class Item {
       //add images
       const ownerExists = (auth.currentUser) ? auth.currentUser.uid : false;
       const isOwner = item.owner === ownerExists;
-      console.log(isOwner);
-      this.images = new Images(this.key, isOwner);
+      this.images = new Images(this.key, isOwner, this.editButton, this.cancelButton, this.form);
+      removeChildren(this.imageSection);
       this.imageSection.append(this.images.render());
 
       if(isOwner) { //allow editing capabilities if owner
@@ -128,7 +125,6 @@ export default class Item {
           this.submitButtons.classList.remove('hidden');
           this.readonlys.forEach(item => item.readOnly = false);
           this.disabled.disabled = false;
-          this.addImages.classList.remove('hidden');
         });
         this.removeButton.addEventListener('click', () => {
           this.removeItem();
@@ -140,7 +136,7 @@ export default class Item {
           this.description.readOnly = true;
           this.whishlist.readOnly = true;
           this.category.disabled = true;
-          this.addImages.classList.add('hidden');
+
         });
         this.form.addEventListener('submit', (event) => {
           event.preventDefault();
