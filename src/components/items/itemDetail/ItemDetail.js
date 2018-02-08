@@ -110,6 +110,7 @@ export default class Item {
       if(item.description) this.description.value = `${item.description}`;
       if(item.whishlist) this.whishlist.value = `${item.whishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
+      
       userdb.child(item.owner).child('name').once('value', (data)=>{
         this.owner.textContent = data.val();
       });

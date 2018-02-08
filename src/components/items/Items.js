@@ -3,24 +3,55 @@ import html from './items.html';
 import ItemList from './list/ItemList';
 import AddItem from './add/AddItem';
 import { db, auth } from '../../services/firebase';
+import { removeChildren } from '../dom';
 import ItemDetail from './itemDetail/ItemDetail';
 
 const template = new Template(html);
-const vehicles = db.ref('Vehicles');
-const electronics = db.ref('Electronics');
-const toys = db.ref('Toys');
-const pets = db.ref('Pets');
+const toys = db.ref('items').orderByChild('category').equalTo('Toys');
+const electronics = db.ref('items').orderByChild('category').equalTo('Electronics');
+const pets = db.ref('items').orderByChild('category').equalTo('Pets');
+const vehicles = db.ref('items').orderByChild('category').equalTo('Vehicles');
+
+
+// const map = new Map();
+// map.set('#items/addItem', { Component: AddItem, isPublic: false });
+
+// const homepage = { Component: Items, isPublic: true };
 
 export default class Items {
   constructor() {
     this.hashChange = () => this.setChildPage();
     window.addEventListener('hashchange', this.hashChange);
+
+    // let authed = false;
+
+    // auth.onAuthStateChanged(user => {
+    //   this.user = user;
+    //   if(!authed) {
+    //     authed = true;
+    //     this.setChildPage();
+    //   }
+    //   if(!user && !this.page.isPublic) {
+    //     window.location.hash = '#';
+    //   }
+    // });
   }
 
-  setChildPage() {
+  setChildPage() { //TODO, limit authorization on new item page
     const routes = window.location.hash.split('/');
     const childPage = routes[1] || '';
     if(this.childPage === childPage) return;
+
+    // if(this.page && this.page.component) this.page.component.unrender();
+    // removeChildren(this.section);
+
+    // const { Component, isPublic } = map.get(childPage) || homepage;
+
+    // let component = null;
+
+    // if(!isPublic && !this.user) {
+    //   window.location.hash = `#login/${encodedURIComponent(hash)}`;
+    // }
 
     let childComponent;
     if(childPage === 'Vehicles') {
@@ -47,7 +78,6 @@ export default class Items {
       childComponent = new ItemList();
       this.header.textContent = 'All Items';
     }
-
     this.section.textContent = '';
     this.childComponent = childComponent;
     this.section.appendChild(childComponent.render());
