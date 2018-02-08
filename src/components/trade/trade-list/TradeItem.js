@@ -9,16 +9,18 @@ const items = db.ref('items');
 const itemImages = db.ref('itemImages');
 
 export default class TradeItem {
-  constructor(key) {
+  constructor(key, name, selectedItem) {
     this.key = key;
     this.item = items.child(key);
     this.itemImages = itemImages.child(key).limitToFirst(1);
+    this.name = name;
+    this.selectedItem = selectedItem || null;
   }
 
   update(item) {
     this.label.textContent = `${item.title}`;
     this.image.alt = item.title;
-    
+    if(this.selectedItem === this.key) this.input.checked = true; //checks the handed down item
   }
 
   render() {
@@ -31,7 +33,7 @@ export default class TradeItem {
 
     this.input.setAttribute('value', this.key);
     this.aTag.href = `#items/item/${this.key}`;
-    this.input.setAttribute('name', this.key);
+    this.input.setAttribute('name', this.name);
     this.label.setAttribute('for', this.key);
 
     this.onValue = this.item.on('value', data => {
@@ -39,7 +41,7 @@ export default class TradeItem {
     });
     
     this.onImageValue = this.itemImages.on('child_added', data => {
-      this.image.src = getURL(data.val(), 'c_fill,c_scale,w_150');
+      this.image.src = getURL(data.val(), 'c_fill,q_auto,w_300,h_300');
     });
 
     return dom;

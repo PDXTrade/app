@@ -15,39 +15,60 @@ export default class Trade {
     this.trade = trades.child(this.tradeKey);
   }
 
+  handleSubmit(form) {
+    console.log(form);
+    const fieldset = form.querySelector('#my-fieldset');
+    const data = new FormData(fieldset);
+    console.log(data.getAll('this.key'));
+    const offer = {};
+    data.forEach((value, name) => offer[name] = value); 
+    console.log(offer);
+    
+    // offer.owner = auth.currentUser.uid;
+    // const ref = items.push();
+  };
+
   render() {
     const dom = template.clone();
     const myItems = itemsByUser.child(auth.currentUser.uid);
    
-
-    this.myHeader = dom.querySelector('.my-user');
-    this.mySection = dom.querySelector('.my-item-list');  
-    this.theirSection = dom.querySelector('.their-item-list');  
-    this.theirHeader = dom.querySelector('.their-user');
+    this.myHeader = dom.querySelector('h1.my-user');
+    this.mySection = dom.querySelector('section.my-item-list');  
+    this.theirSection = dom.querySelector('section.their-item-list');  
+    this.theirHeader = dom.querySelector('h1.their-user');
+    this.form = dom.querySelector('form');
+    this.myFieldset = dom.querySelector('#my-fieldset');
 
     this.myHeader.textContent = auth.currentUser.displayName;
 
-    const myList = new TradeList(myItems).render();
+    const myList = new TradeList(myItems, auth.currentUser.uid).render();
     this.mySection.append(myList);
 
     this.onValue = this.trade.on('value', data => {
       const trade = data.val();
+      // console.log(trade.desiredItems.limitToFirst()); TODO: how to get item selected for trade
 
       //protect from deletion
       if(!trade) return;
+      const selectedItem = Object.keys(trade.desiredItems)[0];
 
-      this.theirHeader = trade.desiredOwnerName;
+      this.theirHeader.textContent = trade.desiredOwnerName;
       const theirItems = itemsByUser.child(trade.desiredOwnerKey);
-      const theirList = new TradeList(theirItems).render();
+      const theirList = new TradeList(theirItems, trade.desiredOwnerKey, selectedItem).render();
       this.theirSection.append(theirList);
 
     });
 
-    
+    this.form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.handleSubmit(event.target);
+    })
+      // .then(() => window.location.hash = 'items');
+
     return dom;
   }
 
   unrender() {
-    // window.removeEventListener('hashchange', this.hashChange);
+    this.trade.off('value', this.onValue);
   }
 }
