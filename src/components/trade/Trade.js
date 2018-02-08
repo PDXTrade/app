@@ -1,28 +1,24 @@
 import Template from '../Template';
 import html from './trade.html';
 import './trade.css';
-// import UserPage from '../user/UserPage';
 import TradeList from './trade-list/TradeList';
 import { db, auth } from '../../services/firebase';
 
 const template = new Template(html);
 const itemsByUser = db.ref('itemsByUser');
-const items = db.ref('items');
-const itemImages = db.ref('itemImages');
-// const itemImageStorage = storage.ref('items');
-const userdb = db.ref('users');
-
+const trades = db.ref('trades');
 
 export default class Trade {
   constructor() {
     const hash = window.location.hash.split('/');
-    this.desiredItemKey = hash[1];
+    this.tradeKey = hash[1];
+    this.trade = trades.child(this.tradeKey);
   }
 
   render() {
     const dom = template.clone();
     const myItems = itemsByUser.child(auth.currentUser.uid);
-    // const theirItems = itemsByUser.child(this.theirKey);
+   
 
     this.myHeader = dom.querySelector('.my-user');
     this.mySection = dom.querySelector('.my-item-list');  
@@ -31,11 +27,21 @@ export default class Trade {
 
     this.myHeader.textContent = auth.currentUser.displayName;
 
-
     const myList = new TradeList(myItems).render();
     this.mySection.append(myList);
-    // const theirList = new TradeList(theirItems).render();
-    // this.theirSection.append(theirList);
+
+    this.onValue = this.trade.on('value', data => {
+      const trade = data.val();
+
+      //protect from deletion
+      if(!trade) return;
+
+      this.theirHeader = trade.desiredOwnerName;
+      const theirItems = itemsByUser.child(trade.desiredOwnerKey);
+      const theirList = new TradeList(theirItems).render();
+      this.theirSection.append(theirList);
+
+    });
 
     
     return dom;
