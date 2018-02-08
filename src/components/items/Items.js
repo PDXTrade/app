@@ -11,7 +11,7 @@ const toys = db.ref('items').orderByChild('category').equalTo('Toys');
 const electronics = db.ref('items').orderByChild('category').equalTo('Electronics');
 const pets = db.ref('items').orderByChild('category').equalTo('Pets');
 const vehicles = db.ref('items').orderByChild('category').equalTo('Vehicles');
-
+const user = auth.currentUser;
 
 // const map = new Map();
 // map.set('#items/addItem', { Component: AddItem, isPublic: false });
@@ -67,9 +67,13 @@ export default class Items {
       childComponent = new ItemList(electronics);
       this.header.textContent = `${childPage}`;
     } else if(childPage === 'addItem') {
-      childComponent = new AddItem();
-      this.header.textContent = 'New Item';
-      this.paragraph.textContent = 'Create a new item to trade';
+      if(user) {
+        childComponent = new AddItem();
+        this.header.textContent = 'New Item';
+        this.paragraph.textContent = 'Create a new item to trade';
+      } else {
+        window.location.hash = 'login';
+      }
     } else if(childPage === 'item') {
       childComponent = new ItemDetail(routes[2]); //selects key from route split
       this.header.textContent = '';
