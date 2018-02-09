@@ -82,7 +82,7 @@ export default class ItemDetail {
     const myRef = tradesByUser.child(desiredItemOwnerId);
     const theirRef = tradesByUser.child(myUserId);
     
-    const updates = { //TODO: is rewritten every time
+    const updates = {
       [`${myRef.path}/${trade.key}`]: true,
       [`${theirRef.path}/${trade.key}`]: true 
     };

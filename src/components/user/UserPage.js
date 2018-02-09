@@ -6,10 +6,15 @@ import ItemList from '../items/list/ItemList';
 import { db } from '../../services/firebase';
 
 const template = new Template(html);
-
+const itemsByUser = db.ref('itemsByUser');
+const users = db.ref('users');
 
 export default class UserPage {
   
+  constructor() {
+    this.userKey = window.location.hash.split('/')[1];
+  }
+
   render() { 
     
     const dom = template.clone();
@@ -17,21 +22,21 @@ export default class UserPage {
     this.header = dom.querySelector('#username-header');
     this.section = dom.querySelector('#user-item-list');    
     
-    const userKey = window.location.hash.split('/')[1];
-    const userItems = db.ref('itemsByUser').child(userKey);
-    const userList = new ItemList(userItems).render();
+    this.userItems = itemsByUser.child(this.userKey);
+    this.user = users.child(this.userKey);
 
-    const user = db.ref('users').child(userKey);
-    const userName = user.name;
+    this.user.child('name').once('value', (data)=>{
+      this.header.textContent = data.val();
+    });
 
-    this.header.textContent = userKey;
+    const userList = new ItemList(this.userItems).render();
     this.section.append(userList);
-    
+
     return dom; 
   }
 
   unrender() {
-    // window.removeEventListener('hashchange', this.hashChange);
+
   }
 
 
