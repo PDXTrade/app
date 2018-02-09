@@ -39,9 +39,9 @@ header {
     width: 100%;
     background: $base-white;
     font-size: .7rem;
-
-    top: 1rem;
+    top: 2rem;
     padding: .5rem;
+
     ul {
       display: flex;
       justify-content: space-around;
@@ -105,9 +105,11 @@ header {
     #category-accordian {
       display: none;
     }
-    #logo {
-      padding-left: .5rem;
-    }
+
+    #logo {padding-left: 3rem;}
+
+    .user-nav {padding-right: 3rem;}
+
     .hide {
       opacity: 1;
       transform: translate(0, 130%);   
@@ -115,6 +117,7 @@ header {
     }
     #category-nav {
       background: $base-white;
+      /* width: 70%; */
     }
   }
 }

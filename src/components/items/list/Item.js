@@ -44,7 +44,7 @@ export default class Item {
     });
     
     this.onImageValue = this.itemImages.on('child_added', data => {
-      this.image.src = getURL(data.val(), 'c_fill,c_scale,w_300');
+      this.image.src = getURL(data.val(), 'c_fill,q_auto,w_300,h_300');
     });
 
     return dom;
