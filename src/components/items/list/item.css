@@ -1,15 +1,25 @@
+@import '../../variables.css';
+
+
 #item {
   height: ;
   display: flex;
   flex-direction: column;
-  align-self: center;
   margin-bottom: 2rem;
   h2 {
+    align-self: center;
     font-size: 1rem;
-
   }
   img {
     height: 100%;
     
   }
 }
+
+h2.caption {
+  color: $base-dark;
+  }
+     
+
+/* #item:hover {color: rgba(214,80,62,.5);} */
+

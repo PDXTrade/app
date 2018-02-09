@@ -10,7 +10,9 @@ h1, p, #list-view {
   margin-bottom: 15%;
 }
 
-h1 {margin: 3% auto 0;}
+h1 {
+  margin: 4% auto 0;
+}
 
 @media (min-width: 450px) {
   h1, p, #list-view {padding: 0 6%}

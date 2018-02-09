@@ -5,13 +5,13 @@
 }
 
 #add-item {
-  width: 80%;
+  width: 100%;
   background: $form-focus;
 
 }
 
 
-#add-item, .image-upload, .add-label {
+#add-item, .image-upload, .add-label, #submit-button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,21 +36,23 @@
 .add-label {margin-top: .8rem;}
 
 .add-label > input {
-  width: 100%;
+  /* width: 100%; */
   height: 1.5rem;
   display: block;
   margin-top: .5rem;
   border: none;
 }
 
-#submit-button { width: 100%; margin-top: 3rem;}
+#submit-button { 
+  width: 100%; 
+  margin-top: 3rem;
+
+
+}
 
 label > button {
-  background: $action-red;
-  color: $;
-  border: none;
   height: 3rem;
-  width: 100%;
+  width: 50%;
   margin-top: .5rem;
 }
 

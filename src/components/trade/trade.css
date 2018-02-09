@@ -1,0 +1,8 @@
+#success {
+  position: absolute;
+  width: 90%;
+  height: 50%;
+  color: rgb(214,80,62);
+  margin: 20% auto;
+  font-size: 3rem;
+}
