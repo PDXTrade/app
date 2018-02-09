@@ -19,14 +19,19 @@
   align-items: flex-start;
   justify-content: space-evenly;
   color: $dark;
+  text-align: center;
+  .images {
+    width: 100%;
+    margin: auto;
+    img {
+      margin: auto;
+    }
+  }
 }
 
 .images { width: 100%; justify-self: end; }
 
 #owner { margin: 0; padding: 0; }
 
-details-box {
-  /* margin-top: 2rem; */
-}
-
 #submit-buttons { width: 20rem; }
+
