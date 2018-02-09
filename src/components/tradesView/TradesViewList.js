@@ -2,29 +2,37 @@ import Template from '../Template';
 import html from './trades-view-list.html';
 import { auth, db } from '../../services/firebase';
 
-const tradesByUser = db.ref('tradesByUser');
 const template = new Template(html);
+const trades = db.ref('trades');
 
-export default class Auth {
+export default class TradesViewList {
 
-  constructor(listRef){
-    this.listRef = listRef;
+  constructor(tradeKey){
+    this.tradeRef = trades.child(tradeKey);
+    this.tradeKey = tradeKey;
   }
 
   render() {
 
     const dom = template.clone();
-    const ul = dom.querySelector('ul');
 
-    const myTrades = tradesByUser.child(auth.currentUser.uid);
-    // const tradesList = new TradesViewList(myTrades);
+    const myName = dom.querySelector('span.my-name');
+    const theirName = dom.querySelector('span.their-name');
+    const aTag = dom.querySelector('a');
 
-    // ul.appendChild(tradesList);
+    aTag.href = `#trade/${this.tradeKey}`;
+
+    this.trade = this.tradeRef.on('value', data => {
+      const trade = data.val();
+      myName.textContent = trade.offeredOwnerName;
+      theirName.textContent = trade.desiredOwnerName;
+    });
 
     return dom;
   }
 
   unrender() {
+    this.tradeRef.off('value', this.trade);
   }
 
 }
