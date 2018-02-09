@@ -20,6 +20,7 @@ ul {
 main {
   width: 100%;
   margin: 0 auto;
+
   .footer-button {
     position: fixed;
     bottom: 2%;
@@ -28,15 +29,18 @@ main {
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
+  }
+  
+  .orange-button {
     background: rgb(214,80,62);
     border-radius: 5px;
     border: none;
     box-shadow: 0 2px rgba(35,5,5,.3);
-    
+    font-size: 1.6rem;
+    color: $base-white;
+    text-transform: uppercase;
     a {
-      font-size: 1.6rem;
       color: $base-white;
-      text-transform: uppercase;
     }
   }
 
@@ -44,6 +48,13 @@ main {
 
 .hidden {
   display: none;
+}
+
+
+@media (min-width: 450px) {
+  main {
+    .footer-button {width: 60%;}
+  }  
 }
 
 @media (min-width:600px) {

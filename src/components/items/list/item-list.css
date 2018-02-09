@@ -1,7 +1,19 @@
 ul.item-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(auto, 2fr));
-  grid-gap: 5px;
-
-
+  grid-template-columns: repeat(auto-fill, minmax(47%, 2fr));
+  grid-gap: 2%;
 }
+
+@media (min-width: 375px) {
+  ul.item-list {
+    grid-template-columns: repeat(auto-fill, minmax(32%, 3fr));
+  }
+}
+
+@media (min-width: 450px) {
+  ul.item-list {
+    grid-template-columns: repeat(auto-fill, minmax(29.33%, 3fr));
+  }
+}
+
+
