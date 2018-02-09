@@ -61,8 +61,13 @@ main {
 
   main {
     margin-top: 4rem;
-    .footer-button {width: 35%;}
-
+    .footer-button {width: 40%;}
   }
+}
 
+@media (min-width:850px) {
+
+  main {
+    .footer-button {width: 25%;}
+  }
 }

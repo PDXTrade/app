@@ -2,10 +2,10 @@
 
 
 .trade-check {
-  /* {visibility: hidden;} */
+  opacity: 1;
   z-index: 10;
 }
 
-.trade-check:checked ~ img {
+.trade-check:checked ~ img{
   border: solid 5px $action-red;
 }
