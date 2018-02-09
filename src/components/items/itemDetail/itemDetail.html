@@ -1,41 +1,45 @@
 <form id="item-detail">
-  <div>
-    <label for="title" class="clip">Title</label>
-    <input id="detail-title" required name="title" readonly>
-  </div>
-  
-  <p id="owner">Owner: <span id="detail-owner"></span></p>
   <section class="images"></section>
- 
-  <div>
-    <label for="description">Description</label><br>
-    <input id="detail-description" name="description" readonly>
-  </div>
 
-  <div>
-    <label for="wishlist">Wishlist</label><br>
-    <input id="detail-wishlist" name="wishlist" readonly>
-  </div>
+  <div id="details">
+    <div>
+      <label for="title" class="clip">Title</label>
+      <input id="detail-title" required name="title" readonly>
+    </div>
+    
+    <p id="owner">Owner: <span id="detail-owner"></span></p>
+  
+    <div>
+      <label for="description" class="details-box">Description</label><br>
+      <input id="detail-description" name="description" readonly>
+    </div>
 
-  <div>
-  <label for="category-assign">Category</label><br>
-  <select name="category" id="category-assign" disabled>
-    <option value="">All</option>
-    <option value="Toys">Toys</option>
-    <option value="Pets">Pets</option>
-    <option value="Vehicles">Vehicles</option>
-    <option value="Electronics">Electronics</option>
-  </select>
-  </div>
+    <div>
+      <label for="wishlist" class="details-box">Wishlist</label><br>
+      <input id="detail-wishlist" name="wishlist" readonly>
+    </div>
+    
+    <div>
+    <label for="category-assign" class="details-box">Category</label><br>
+    <select name="category" id="category-assign" disabled>
+      <option value="">All</option>
+      <option value="Toys">Toys</option>
+      <option value="Pets">Pets</option>
+      <option value="Vehicles">Vehicles</option>
+      <option value="Electronics">Electronics</option>
+    </select>
+    </div>
 
-  <label id="submit-buttons" class="hidden">
-    <button type="submit" class="save orange-button">Save</button>
-    <button type="button" class="cancel orange-button">Cancel</button>
-    <button type="button" class="remove orange-button">Delete</button>
-  </label>
+    <label id="submit-buttons" class="hidden">
+      <button type="submit" class="save orange-button">Save</button>
+      <button type="button" class="cancel orange-button">Cancel</button>
+      <button type="button" class="remove orange-button">Delete</button>
+    </label>
+
+  </div>
 </form>
 
-<div id="item-page-buttons">
-  <button type="button" class="trade footer-button orange-button">Trade</button>
-  <button type="button" class="edit hidden footer-button orange-button">Edit</button>
-</div>
+  <div id="item-page-buttons">
+    <button type="button" class="trade footer-button orange-button">Trade</button>
+    <button type="button" class="edit hidden footer-button orange-button">Edit</button>
+  </div>

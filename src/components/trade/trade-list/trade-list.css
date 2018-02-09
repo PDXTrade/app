@@ -1,0 +1,11 @@
+@import '../../variables.css';
+
+
+.trade-check {
+  /* {visibility: hidden;} */
+  z-index: 10;
+}
+
+.trade-check:checked ~ img {
+  border: solid 5px $action-red;
+}
