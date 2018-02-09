@@ -78,7 +78,7 @@ export default class ItemDetail {
     this.category.disabled = true;
   }
 
-  handleTradesByUsers(desiredItemOwnerId, myUserId, trade) { //TODO: check if trade between two people already exists?
+  handleTradesByUsers(desiredItemOwnerId, myUserId, trade) {
     const myRef = tradesByUser.child(desiredItemOwnerId);
     const theirRef = tradesByUser.child(myUserId);
     

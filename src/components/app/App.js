@@ -7,6 +7,7 @@ import Header from './header/Header';
 import Items from '../items/Items';
 import UserPage from '../user/UserPage';
 import Trade from '../trade/Trade';
+import TradesView from '../tradesView/TradesView';
 import { auth } from '../../services/firebase';
 
 const template = new Template(html);
@@ -15,7 +16,8 @@ const map = new Map();
 map.set('#login', { Component: Auth, isPublic: true });
 map.set('#items', { Component: Items, isPublic: true });
 map.set('#user', { Component: UserPage, isPublic: true });
-map.set('#trade', { Component: Trade, isPublic: true });
+map.set('#trade', { Component: Trade, isPublic: false });
+map.set('#tradeview', { Component: TradesView, isPublic: false });
 
 const homepage = { Component: Items, isPublic: true };
 

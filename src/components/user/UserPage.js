@@ -23,7 +23,6 @@ export default class UserPage {
 
     const user = db.ref('users').child(userKey);
     const userName = user.name;
-    console.log(userName);  
 
     this.header.textContent = userKey;
     this.section.append(userList);
