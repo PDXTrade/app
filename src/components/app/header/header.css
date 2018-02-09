@@ -119,5 +119,15 @@ header {
       background: $base-white;
       /* width: 70%; */
     }
+
+    #category-nav {
+      background: $base-white;
+      top: 1rem;
+      ul {
+        a {
+          font-size: 2em;
+        }
+      }
+    }
   }
 }

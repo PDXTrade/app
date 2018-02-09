@@ -2,12 +2,13 @@
   <section class="images"></section>
 
   <div id="details">
+    <p id="owner">Owner<br><a id="detail-owner"></a></p>
+    
     <div>
-      <label for="title" class="clip">Title</label>
+      <label for="title" class="details-box">Title</label><br>
       <input id="detail-title" required name="title" readonly>
     </div>
     
-    <p id="owner">Owner: <span id="detail-owner"></span></p>
   
     <div>
       <label for="description" class="details-box">Description</label><br>
@@ -28,15 +29,15 @@
       <option value="Vehicles">Vehicles</option>
       <option value="Electronics">Electronics</option>
     </select>
-    </div>
-
-    <label id="submit-buttons" class="hidden">
-      <button type="submit" class="save orange-button">Save</button>
-      <button type="button" class="cancel orange-button">Cancel</button>
-      <button type="button" class="remove orange-button">Delete</button>
-    </label>
-
+    </div>    
   </div>
+
+      <label id="submit-buttons" class="hidden">
+        <button type="submit" class="save orange-button">Save</button>
+        <button type="button" class="cancel orange-button">Cancel</button>
+        <button type="button" class="remove orange-button">Delete</button>
+      </label>
+      
 </form>
 
   <div id="item-page-buttons">

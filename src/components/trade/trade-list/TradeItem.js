@@ -32,6 +32,7 @@ export default class TradeItem {
     this.image = dom.querySelector('img');
     this.input = dom.querySelector('input');
     this.label = dom.querySelector('label');
+  
 
     this.input.setAttribute('value', this.key);
     this.aTag.href = `#items/item/${this.key}`;

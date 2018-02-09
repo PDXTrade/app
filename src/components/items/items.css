@@ -18,6 +18,10 @@ h1 {
   h1, p, #list-view, #user-item-list {padding: 0 6%}
 }
 
+@media (min-width: 600px) {
+  h1 {margin: 9% 0 6%}
+}
+
 @media (min-width:900px) {
   h1, p, #list-view, #user-item-list {padding: 0 10%}
 }
