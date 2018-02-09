@@ -57,7 +57,6 @@ export default class Trade {
         (theirItems = itemsByUser.child(trade.desiredOwnerKey)),
         (this.myHeader.textContent = trade.offeredOwnerName),
         (this.theirHeader.textContent = trade.desiredOwnerName),
-        (selectedItems = Object.keys(trade.desiredItems)),
         (this.aTagMine.href = `/#user/${trade.offeredOwnerKey}`),
         (this.aTagTheirs.href = `/#user/${trade.desiredOwnerKey}`)
 
@@ -66,7 +65,6 @@ export default class Trade {
         (theirItems = itemsByUser.child(trade.offeredOwnerKey)),
         (this.theirHeader.textContent = trade.offeredOwnerName),
         (this.myHeader.textContent = trade.desiredOwnerName),
-        (selectedItems = Object.keys(trade.offeredItems)),
         (this.aTagTheirs.href = `/#user/${trade.offeredOwnerKey}`),
         (this.aTagMine.href = `/#user/${trade.desiredOwnerKey}`)
       );
@@ -74,8 +72,10 @@ export default class Trade {
       //check for existance first
       if(auth.currentUser.uid === trade.offeredOwnerKey) {
         if(trade.offeredItems) this.offeredItems = Object.keys(trade.offeredItems);
+        if(trade.desiredItems) selectedItems = Object.keys(trade.desiredItems);
       } else {
         if(trade.desiredItems) this.offeredItems = Object.keys(trade.desiredItems);
+        if(trade.offeredItems) selectedItems = Object.keys(trade.offeredItems);
       }
 
       const theirList = new TradeList(theirItems, 'theirs', selectedItems).render();
