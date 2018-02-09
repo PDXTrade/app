@@ -1,11 +1,16 @@
 @import '../../variables.css';
 
+.box {
+  position: relative;
+  .trade-check {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    opacity: 0;
+  }
 
-.trade-check {
-  opacity: 1;
-  z-index: 10;
-}
-
-.trade-check:checked ~ img{
-  border: solid 5px $action-red;
+  .trade-check:checked ~ img {
+    border: solid 5px $action-red;
+  }
 }

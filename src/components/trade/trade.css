@@ -7,10 +7,11 @@
   color: rgb(214,80,62);
   font-size: 3rem;
   text-align: center;
+  z-index: 100;
 }
 
 #trade-form {
-  
+  height: 85vh;
   width: 96%;
   margin: 0 auto;
   display: grid;
@@ -19,6 +20,6 @@
 }
 
 .trade-set {
-  max-height: 70%;
+  max-height: 92%;
   overflow-y: scroll;
 }
