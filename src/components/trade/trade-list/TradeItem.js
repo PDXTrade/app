@@ -9,18 +9,18 @@ const items = db.ref('items');
 const itemImages = db.ref('itemImages');
 
 export default class TradeItem {
-  constructor(key, name, selectedItem) {
+  constructor(key, name, selectedItems) {
     this.key = key;
     this.item = items.child(key);
     this.itemImages = itemImages.child(key).limitToFirst(1);
     this.name = name;
-    this.selectedItem = selectedItem || null;
+    if(selectedItems) (selectedItems !== [] && selectedItems.includes(this.key)) ? this.selectedItems = false : this.selectedItems = selectedItems;
   }
 
   update(item) {
     this.label.textContent = `${item.title}`;
     this.image.alt = item.title;
-    if(this.selectedItem === this.key) this.input.checked = true; //checks the handed down item
+    if(this.selectedItems) this.input.checked = true; 
   }
 
   render() {
