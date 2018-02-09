@@ -3,8 +3,8 @@
 
 #item-detail {
   width: 90%;
-  margin: 5% auto;
-  padding: 2%;
+  margin: 15% auto;
+  padding: 4% 3%;
   display: grid;
   grid-template-columns: 3fr 2fr; 
   grid-gap: 3%;
@@ -13,7 +13,7 @@
 }
 
 #details {
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -21,9 +21,6 @@
   .images {
     width: 100%;
     margin: auto;
-    img {
-      margin: auto;
-    }
   }
   input {
     margin-bottom: 1rem;
@@ -35,4 +32,17 @@
 #owner { margin: 0; padding: 0; }
 
 #submit-buttons { width: 20rem; }
+
+@media (max-width: 600px) {
+  #item-detail { 
+    grid-template-columns: 1fr; 
+    /* justify-content: center; */
+  }
+
+  #details {
+    width: 50%;
+    align-items: flex-start;
+    padding-top: 1rem; 
+  }
+}
 
