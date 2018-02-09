@@ -21,17 +21,15 @@ export default class Trade {
     data.forEach((value, name) => offer[value] = name); 
     const myItems = {};
     const theirItems = {};
-    for(let key in offer){
+    for(let key in offer){ //split up form into mine and theirs
       if(offer[key] === 'mine') myItems[key] = true;
       else theirItems[key] = true;
     }
-    // const promise1 = new Promise.resolve(this.trade.child('desiredItems').set(theirItems));
-    // const promise2 = new Promise.resolve(this.trade.child('offeredItems').set(myItems));
 
-    // return Promise.all(promise1, promise2);
-
-      // this.trade.child('offeredItems').set(myItems);
-      // this.trade.child('desiredItems').set(theirItems)
+    return this.trade.update({
+      offeredItems: myItems,
+      desiredItems: theirItems
+    });
   }
 
   render() {

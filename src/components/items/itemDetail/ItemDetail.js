@@ -78,7 +78,7 @@ export default class ItemDetail {
     this.category.disabled = true;
   }
 
-  handleTradesByUsers(desiredItemOwnerId, myUserId, trade) {
+  handleTradesByUsers(desiredItemOwnerId, myUserId, trade) { //TODO: check if trade between two people already exists?
     const myRef = tradesByUser.child(desiredItemOwnerId);
     const theirRef = tradesByUser.child(myUserId);
     
@@ -91,26 +91,15 @@ export default class ItemDetail {
   }
 
   handleTrade(desiredKey, desiredItemOwnerId, desiredItemOwnerUserName, myUserId, myUserName) {
-    const trade = trades.push();
+    const trade = trades.child(`${myUserId}${desiredItemOwnerId}`);
     this.handleTradesByUsers(desiredItemOwnerId, myUserId, trade);
-    // const myRef = tradesByUser.push(desiredItemOwnerId);
-    // const theirRef = tradesByUser.push(myUserId);
-    
-    // const updates = {
-    //   [myRef.path]: trade.key,
-    //   [theirRef.path]: trade.key
-    // };
 
-    // db.ref().update(updates);
-
-    return trade.set({
+    return trade.update({
       desiredOwnerKey: desiredItemOwnerId,
       desiredOwnerName: desiredItemOwnerUserName,
       offeredOwnerKey: myUserId,
       offeredOwnerName: myUserName,
-      desiredItems: {
-        [desiredKey]: true
-      }
+      [`desiredItems/${desiredKey}`]: true
     })
       .then(() => trade.key);
   }
