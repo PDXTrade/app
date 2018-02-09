@@ -1,5 +1,5 @@
 {
-  "name": "Travel_App",
+  "name": "TradePDX",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "start": "webpack-dev-server",
     "build": "webpack"
   },
-  "author": "Anwar Montasir",
+  "author": "Grace Provost",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^7.2.4",

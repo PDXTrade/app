@@ -8,11 +8,19 @@
   margin: 2% auto;
   padding: 5% 3%;
   color: $dark;
+  text-align: center;
+  .images {
+    width: 100%;
+    margin: auto;
+    img {
+      margin: auto;
+    }
+  }
 }
 
-.images {
+/* .images {
   width: 100%;
   position: absolute;
   left: 0;
 
-}
+} */
