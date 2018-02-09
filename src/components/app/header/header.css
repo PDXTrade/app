@@ -35,6 +35,7 @@ header {
     }
   }
   #category-nav {
+    z-index:100;
     position: absolute;
     width: 100%;
     background: $base-white;

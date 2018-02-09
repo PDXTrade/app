@@ -1,2 +1,13 @@
 @import '../variables.css';
 
+#trades-view {
+  display: block;
+  margin: 0 auto;
+  width: 90%;
+  a {
+    color: $base-dark;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

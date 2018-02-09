@@ -23,3 +23,10 @@
   max-height: 92%;
   overflow-y: scroll;
 }
+
+@media (min-width:600px) {
+  #trade-form {
+    margin-top: 5rem;
+    height: 68vh;
+  }
+}
