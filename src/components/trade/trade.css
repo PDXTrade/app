@@ -8,3 +8,16 @@
   font-size: 3rem;
   text-align: center;
 }
+
+#trade-form {
+  width: 96%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 3%;
+}
+
+.trade-set {
+  max-height: 70%;
+  overflow-y: scroll;
+}
