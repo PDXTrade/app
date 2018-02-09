@@ -87,18 +87,13 @@ export default class Trade {
 
     this.form.addEventListener('submit', (event) => {
       event.preventDefault();
+      this.handleSubmit(event.target);
+      this.success.classList.remove('hidden');
 
-      // this.success.textContent = 'hello world';
+      setTimeout(() => {
+        window.location.hash = `tradeview/${auth.currentUser.uid}`;
+      }, 1000);
 
-      setTimeout(() => {this.handleSubmit(event.target)
-        .then(() => {
-          window.location.hash = `tradeview/${auth.currentUser.uid}`;
-        });}, 2500);
-
-      // this.handleSubmit(event.target)
-      //   .then(() => {
-      //     window.location.hash = 'items';
-      //   });
     });
 
     return dom;
