@@ -76,6 +76,7 @@ export default class ItemDetail {
     this.description.readOnly = true;
     this.wishlist.readOnly = true;
     this.category.disabled = true;
+    this.editButton.classList.remove('hidden');
   }
 
   handleTradesByUsers(desiredItemOwnerId, myUserId, trade) {
