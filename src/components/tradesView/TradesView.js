@@ -1,7 +1,7 @@
 import Template from '../Template';
 import html from './trades-view.html';
 import TradesViewList from './tradesViewList';
-import 'tradesView.css';
+import './tradesView.css';
 import { auth, db } from '../../services/firebase';
 
 const tradesByUser = db.ref('tradesByUser');
