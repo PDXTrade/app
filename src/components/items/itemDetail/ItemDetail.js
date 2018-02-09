@@ -83,8 +83,8 @@ export default class ItemDetail {
     const theirRef = tradesByUser.child(myUserId);
     
     const updates = {
-      [myRef.path]: { [trade.key]: true },
-      [theirRef.path]: { [trade.key]: true }
+      [`${myRef.path}/${trade.key}`]: true,
+      [`${theirRef.path}/${trade.key}`]: true 
     };
 
     return db.ref().update(updates);
@@ -135,6 +135,7 @@ export default class ItemDetail {
       if(item.description) this.description.value = `${item.description}`;
       if(item.wishlist) this.wishlist.value = `${item.wishlist}`;
       if(item.category) this.category.querySelector(`[value=${item.category}]`).selected = true;
+      this.owner.href = `/#user/${item.owner}`;
       userdb.child(item.owner).child('name').once('value', (data)=>{
         this.owner.textContent = data.val();
         this.ownerName = data.val();

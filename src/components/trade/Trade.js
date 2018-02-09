@@ -34,7 +34,6 @@ export default class Trade {
 
   render() {
     const dom = template.clone();
-    const myItems = itemsByUser.child(auth.currentUser.uid);
    
     this.myHeader = dom.querySelector('h1.my-user');
     this.mySection = dom.querySelector('section.my-item-list');  
@@ -43,21 +42,42 @@ export default class Trade {
     this.form = dom.querySelector('form');
     this.myFieldset = dom.querySelector('#my-fieldset');
     this.success = dom.querySelector('#success');
-
-
-    this.myHeader.textContent = auth.currentUser.displayName;
-
+    this.aTagMine = dom.querySelector('.my-a');
+    this.aTagTheirs = dom.querySelector('.their-a');
 
     this.onValue = this.trade.on('value', data => {
       const trade = data.val();
 
       //protect from deletion
       if(!trade) return;
-      const selectedItems = Object.keys(trade.desiredItems);
-      if(trade.offeredItems) this.offeredItems = Object.keys(trade.offeredItems);
+    
+      let myItems, theirItems, selectedItems; //to allow offerer / offeree to be switched around
+      (auth.currentUser.uid === trade.offeredOwnerKey) ? (
+        (myItems = itemsByUser.child(trade.offeredOwnerKey)),
+        (theirItems = itemsByUser.child(trade.desiredOwnerKey)),
+        (this.myHeader.textContent = trade.offeredOwnerName),
+        (this.theirHeader.textContent = trade.desiredOwnerName),
+        (selectedItems = Object.keys(trade.desiredItems)),
+        (this.aTagMine.href = `/#user/${trade.offeredOwnerKey}`),
+        (this.aTagTheirs.href = `/#user/${trade.desiredOwnerKey}`)
 
-      this.theirHeader.textContent = trade.desiredOwnerName;
-      const theirItems = itemsByUser.child(trade.desiredOwnerKey);
+      ) : (
+        (myItems = itemsByUser.child(trade.desiredOwnerKey)),
+        (theirItems = itemsByUser.child(trade.offeredOwnerKey)),
+        (this.theirHeader.textContent = trade.offeredOwnerName),
+        (this.myHeader.textContent = trade.desiredOwnerName),
+        (selectedItems = Object.keys(trade.offeredItems)),
+        (this.aTagTheirs.href = `/#user/${trade.offeredOwnerKey}`),
+        (this.aTagMine.href = `/#user/${trade.desiredOwnerKey}`)
+      );
+
+      //check for existance first
+      if(auth.currentUser.uid === trade.offeredOwnerKey) {
+        if(trade.offeredItems) this.offeredItems = Object.keys(trade.offeredItems);
+      } else {
+        if(trade.desiredItems) this.offeredItems = Object.keys(trade.desiredItems);
+      }
+
       const theirList = new TradeList(theirItems, 'theirs', selectedItems).render();
       this.theirSection.append(theirList);
       const myList = new TradeList(myItems, 'mine', this.offeredItems).render();
@@ -67,18 +87,13 @@ export default class Trade {
 
     this.form.addEventListener('submit', (event) => {
       event.preventDefault();
+      this.handleSubmit(event.target);
+      this.success.classList.remove('hidden');
 
-      this.success.textContent = 'hello world';
+      setTimeout(() => {
+        window.location.hash = `tradeview/${auth.currentUser.uid}`;
+      }, 1000);
 
-      setTimeout(() => {this.handleSubmit(event.target)
-        .then(() => {
-          window.location.hash = 'items';
-        });}, 2500);
-
-      // this.handleSubmit(event.target)
-      //   .then(() => {
-      //     window.location.hash = 'items';
-      //   });
     });
 
     return dom;
