@@ -1,12 +1,12 @@
 @import '../variables.css';
 
-h1, p, #list-view {
+h1, p, #list-view, #user-item-list {
   /* background: $base-white; */
   padding: 0 2%;
   /* border-radius: 1.5rem; */
 }
 
-#list-view {
+#list-view, #user-item-list {
   margin-bottom: 15%;
 }
 
@@ -15,10 +15,10 @@ h1 {
 }
 
 @media (min-width: 450px) {
-  h1, p, #list-view {padding: 0 6%}
+  h1, p, #list-view, #user-item-list {padding: 0 6%}
 }
 
 @media (min-width:900px) {
-  h1, p, #list-view {padding: 0 10%}
+  h1, p, #list-view, #user-item-list {padding: 0 10%}
 }
 
