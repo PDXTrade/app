@@ -53,6 +53,8 @@ export default class Trade {
       if(!trade) return;
       const selectedItems = Object.keys(trade.desiredItems);
       if(trade.offeredItems) this.offeredItems = Object.keys(trade.offeredItems);
+      console.log(selectedItems);
+      console.log(this.offeredItems);
 
       this.theirHeader.textContent = trade.desiredOwnerName;
       const theirItems = itemsByUser.child(trade.desiredOwnerKey);

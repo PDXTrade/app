@@ -14,13 +14,17 @@ export default class TradeItem {
     this.item = items.child(key);
     this.itemImages = itemImages.child(key).limitToFirst(1);
     this.name = name;
-    if(selectedItems) (selectedItems !== [] && selectedItems.includes(this.key)) ? this.selectedItems = false : this.selectedItems = selectedItems;
+    if(selectedItems) (selectedItems !== [] && selectedItems.includes(this.key)) ? this.selectedItems = selectedItems : this.selectedItems = false;
+    console.log(selectedItems !== [] && selectedItems.includes(this.key));
   }
 
   update(item) {
+    console.log(item);
     this.label.textContent = `${item.title}`;
     this.image.alt = item.title;
-    if(this.selectedItems) this.input.checked = true; 
+    if(this.selectedItems) {
+      this.input.checked = true;
+    }
   }
 
   render() {
