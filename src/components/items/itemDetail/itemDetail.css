@@ -1,5 +1,18 @@
 #item-detail {
-  p {
-    
-  }
+  border-radius: 5px;
+  width: 100%;
+  background: $form-focus;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2% auto;
+  padding: 5% 3%;
+  color: $dark;
+}
+
+.images {
+  width: 100%;
+  position: absolute;
+  left: 0;
+
 }
