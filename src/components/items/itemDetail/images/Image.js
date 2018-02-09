@@ -6,9 +6,12 @@ import { getURL } from '../../../../services/cloudinary';
 const template = new Template(html);
 
 export default class Image {
-  constructor(src, onRemove) {
+  constructor(src, onRemove, editButton, cancelButton, form) {
     this.src = src;
-    this.onRemove = onRemove;
+    this.onRemove = onRemove; 
+    this.editButton = editButton;
+    this.cancelButton = cancelButton;
+    this.form = form;
   }
 
   render() {
@@ -25,6 +28,19 @@ export default class Image {
     else {
       removeButton.remove();
     }
+
+    this.editButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      removeButton.classList.remove('hidden');
+    });
+    this.cancelButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      removeButton.classList.add('hidden');
+    });
+    this.form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      removeButton.classList.add('hidden');
+    });
 
     return dom;
   }

@@ -78,7 +78,7 @@ export default class Trade {
         if(trade.offeredItems) selectedItems = Object.keys(trade.offeredItems);
       }
 
-      const theirList = new TradeList(theirItems, 'theirs', selectedItems).render();
+      const theirList = new TradeList(theirItems, 'mine', selectedItems).render();
       this.theirSection.append(theirList);
       const myList = new TradeList(myItems, 'mine', this.offeredItems).render();
       this.mySection.append(myList);
