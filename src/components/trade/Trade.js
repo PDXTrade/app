@@ -42,6 +42,8 @@ export default class Trade {
     this.theirHeader = dom.querySelector('h1.their-user');
     this.form = dom.querySelector('form');
     this.myFieldset = dom.querySelector('#my-fieldset');
+    this.success = dom.querySelector('#success');
+
 
     this.myHeader.textContent = auth.currentUser.displayName;
 
@@ -65,8 +67,18 @@ export default class Trade {
 
     this.form.addEventListener('submit', (event) => {
       event.preventDefault();
-      this.handleSubmit(event.target)
-        .then(() => window.location.hash = 'items');
+
+      this.success.textContent = 'hello world';
+
+      setTimeout(() => {this.handleSubmit(event.target)
+        .then(() => {
+          window.location.hash = 'items';
+        });}, 2500);
+
+      // this.handleSubmit(event.target)
+      //   .then(() => {
+      //     window.location.hash = 'items';
+      //   });
     });
 
     return dom;
