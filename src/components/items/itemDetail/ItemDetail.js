@@ -82,9 +82,9 @@ export default class ItemDetail {
     const myRef = tradesByUser.child(desiredItemOwnerId);
     const theirRef = tradesByUser.child(myUserId);
     
-    const updates = {
-      [myRef.path]: { [trade.key]: true },
-      [theirRef.path]: { [trade.key]: true }
+    const updates = { //TODO: is rewritten every time
+      [`${myRef.path}/${trade.key}`]: true,
+      [`${theirRef.path}/${trade.key}`]: true 
     };
 
     return db.ref().update(updates);

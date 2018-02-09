@@ -48,7 +48,6 @@ export default class Trade {
 
       //protect from deletion
       if(!trade) return;
-      ;
     
       let myItems, theirItems, selectedItems; //to allow offerer / offeree to be switched around
       (auth.currentUser.uid === trade.offeredOwnerKey) ? (
