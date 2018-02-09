@@ -42,6 +42,8 @@ export default class Trade {
     this.form = dom.querySelector('form');
     this.myFieldset = dom.querySelector('#my-fieldset');
     this.success = dom.querySelector('#success');
+    this.aTagMine = dom.querySelector('.my-a');
+    this.aTagTheirs = dom.querySelector('.their-a');
 
     this.onValue = this.trade.on('value', data => {
       const trade = data.val();
@@ -55,13 +57,18 @@ export default class Trade {
         (theirItems = itemsByUser.child(trade.desiredOwnerKey)),
         (this.myHeader.textContent = trade.offeredOwnerName),
         (this.theirHeader.textContent = trade.desiredOwnerName),
-        (selectedItems = Object.keys(trade.desiredItems))
+        (selectedItems = Object.keys(trade.desiredItems)),
+        (this.aTagMine.href = `/#user/${trade.offeredOwnerKey}`),
+        (this.aTagTheirs.href = `/#user/${trade.desiredOwnerKey}`)
+
       ) : (
         (myItems = itemsByUser.child(trade.desiredOwnerKey)),
         (theirItems = itemsByUser.child(trade.offeredOwnerKey)),
         (this.theirHeader.textContent = trade.offeredOwnerName),
         (this.myHeader.textContent = trade.desiredOwnerName),
-        (selectedItems = Object.keys(trade.offeredItems))
+        (selectedItems = Object.keys(trade.offeredItems)),
+        (this.aTagTheirs.href = `/#user/${trade.offeredOwnerKey}`),
+        (this.aTagMine.href = `/#user/${trade.desiredOwnerKey}`)
       );
 
       //check for existance first

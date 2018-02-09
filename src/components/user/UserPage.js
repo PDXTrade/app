@@ -26,7 +26,7 @@ export default class UserPage {
     this.user = users.child(this.userKey);
 
     this.user.child('name').once('value', (data)=>{
-      this.header.textContent = data.val();
+      this.header.textContent = `${data.val()}'s items`;
     });
 
     const userList = new ItemList(this.userItems).render();
