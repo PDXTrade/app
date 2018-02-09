@@ -13,7 +13,8 @@ export default class User {
     dom.querySelector('.user-name').textContent = `hi, ${user.displayName}`;
 
     dom.querySelector('.sign-out').addEventListener('click', () => {
-      auth.signOut();
+      auth.signOut()
+        .then(() => window.location.hash = 'items');
     });
 
     const userLink = dom.querySelector('#user-link');
