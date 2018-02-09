@@ -2,9 +2,17 @@
 
 h1, #list-view {
   /* background: $base-white; */
-  padding: 2%;
+  padding: 0 2%;
   /* border-radius: 1.5rem; */
 }
 
 h1 {margin: 3% auto 0;}
+
+@media (min-width: 450px) {
+  h1, #list-view {padding: 0 6%}
+}
+
+@media (min-width:900px) {
+  h1, #list-view {padding: 0 10%}
+}
 
