@@ -78,9 +78,6 @@ export default class Trade {
         if(trade.desiredItems) this.offeredItems = Object.keys(trade.desiredItems);
       }
 
-      console.log(this.offeredItems);
-      console.log(selectedItems);
-
       const theirList = new TradeList(theirItems, 'theirs', selectedItems).render();
       this.theirSection.append(theirList);
       const myList = new TradeList(myItems, 'mine', this.offeredItems).render();
@@ -91,11 +88,11 @@ export default class Trade {
     this.form.addEventListener('submit', (event) => {
       event.preventDefault();
 
-      this.success.textContent = 'hello world';
+      // this.success.textContent = 'hello world';
 
       setTimeout(() => {this.handleSubmit(event.target)
         .then(() => {
-          window.location.hash = 'items';
+          window.location.hash = `tradeview/${auth.currentUser.uid}`;
         });}, 2500);
 
       // this.handleSubmit(event.target)
