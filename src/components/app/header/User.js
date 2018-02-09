@@ -17,8 +17,10 @@ export default class User {
     });
 
     const userLink = dom.querySelector('#user-link');
+    const tradesLink = dom.querySelector('#trades-link');
     const userID = auth.currentUser.uid;
     userLink.href = `#user/${userID}`;
+    tradesLink.href = `#tradeview/${userID}`;
 
     return dom;
   }
