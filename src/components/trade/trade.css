@@ -11,7 +11,7 @@
 }
 
 #trade-form {
-  height: 100vh;
+  height: 85vh;
   width: 96%;
   margin: 0 auto;
   display: grid;
@@ -20,6 +20,6 @@
 }
 
 .trade-set {
-  max-height: 70%;
+  max-height: 92%;
   overflow-y: scroll;
 }
