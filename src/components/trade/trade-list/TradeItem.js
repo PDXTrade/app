@@ -15,7 +15,7 @@ export default class TradeItem {
     this.itemImages = itemImages.child(key).limitToFirst(1);
     this.name = name;
     if(selectedItems) (selectedItems !== [] && selectedItems.includes(this.key)) ? this.selectedItems = selectedItems : this.selectedItems = false;
-    // console.log(this.selectedItems);
+    // console.log(this.name);
     // console.log((selectedItems !== [] && selectedItems.includes(this.key)));
   }
 
@@ -35,7 +35,6 @@ export default class TradeItem {
     this.input = dom.querySelector('input');
     this.label = dom.querySelector('label');
   
-
     this.input.setAttribute('value', this.key);
     this.aTag.href = `#items/item/${this.key}`;
     this.input.setAttribute('name', this.name);

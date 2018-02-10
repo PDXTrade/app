@@ -17,14 +17,12 @@ export default class Trade {
 
   handleSubmit(form) {
     const data = new FormData(form);
-    const offer = {};
-    data.forEach((value, name) => offer[value] = name); 
     const myItems = {};
     const theirItems = {};
-    for(let key in offer){ //split up form into mine and theirs
-      if(offer[key] === 'mine') myItems[key] = true;
-      else theirItems[key] = true;
-    }
+    data.forEach((value, name) => {
+      if(name === 'mine') myItems[value] = true;
+      else theirItems[value] = true;
+    });
 
     return this.trade.update({ //update the trade with the newly selected / deselected items
       user2Items: myItems,
@@ -52,21 +50,25 @@ export default class Trade {
       //protect from deletion
       if(!trade) return;
     
-      let myItems, theirItems; //to allow offerer / offeree to be switched around
+      let myItems, theirItems, theirName, myName; //to allow offerer / offeree to be switched around
       (auth.currentUser.uid === trade.user2Key) ? (
         (myItems = itemsByUser.child(trade.user2Key)),
         (theirItems = itemsByUser.child(trade.user1Key)),
         (this.myHeader.textContent = trade.user2Name),
         (this.theirHeader.textContent = trade.user1Name),
         (this.aTagMine.href = `/#user/${trade.user2Key}`),
-        (this.aTagTheirs.href = `/#user/${trade.user1Key}`)
+        (this.aTagTheirs.href = `/#user/${trade.user1Key}`),
+        (myName = 'mine'),
+        (theirName = 'theirs')
       ) : (
         (myItems = itemsByUser.child(trade.user1Key)),
         (theirItems = itemsByUser.child(trade.user2Key)),
         (this.theirHeader.textContent = trade.user2Name),
         (this.myHeader.textContent = trade.user1Name),
         (this.aTagTheirs.href = `/#user/${trade.user2Key}`),
-        (this.aTagMine.href = `/#user/${trade.user1Key}`)
+        (this.aTagMine.href = `/#user/${trade.user1Key}`),
+        (myName = 'theirs'),
+        (theirName = 'mine')
       );
       if(auth.currentUser.uid === trade.user2Key) {
         if(trade.user2Items) this.mySelectedItems = Object.keys(trade.user2Items);
@@ -81,9 +83,9 @@ export default class Trade {
       console.log('user1 items:', trade.user1Items);
       console.log('user1 Name:', trade.user1Name);
       
-      const theirList = new TradeList(theirItems, 'theirs', this.theirSelectedItems).render();
+      const theirList = new TradeList(theirItems, theirName, this.theirSelectedItems).render();
       this.theirSection.append(theirList);
-      const myList = new TradeList(myItems, 'mine', this.mySelectedItems).render();
+      const myList = new TradeList(myItems, myName, this.mySelectedItems).render();
       this.mySection.append(myList);
 
     });
