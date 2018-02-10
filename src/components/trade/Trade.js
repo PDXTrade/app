@@ -3,6 +3,7 @@ import html from './trade.html';
 import './trade.css';
 import TradeList from './trade-list/TradeList';
 import { db, auth } from '../../services/firebase';
+import { removeChildren } from '../dom';
 
 const template = new Template(html);
 const itemsByUser = db.ref('itemsByUser');
@@ -44,7 +45,7 @@ export default class Trade {
     this.aTagMine = dom.querySelector('.my-a');
     this.aTagTheirs = dom.querySelector('.their-a');
 
-    this.onValue = this.trade.once('value', data => {
+    this.onValue = this.trade.on('value', data => {
       const trade = data.val();
 
       //protect from deletion
@@ -77,6 +78,10 @@ export default class Trade {
         if(trade.user2Items) this.theirSelectedItems = Object.keys(trade.user2Items);
         if(trade.user1Items) this.mySelectedItems = Object.keys(trade.user1Items);
       }
+      if(this.mySection.children.length > 0) {
+        removeChildren(this.mySection);
+        removeChildren(this.theirSection);
+      }
 
       const theirList = new TradeList(theirItems, theirName, this.theirSelectedItems).render();
       this.theirSection.append(theirList);
@@ -100,6 +105,6 @@ export default class Trade {
   }
 
   unrender() {
-    // this.trade.off('value', this.onValue);
+    this.trade.off('value', this.onValue);
   }
 }
