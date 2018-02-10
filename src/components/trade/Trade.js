@@ -44,7 +44,7 @@ export default class Trade {
     this.aTagMine = dom.querySelector('.my-a');
     this.aTagTheirs = dom.querySelector('.their-a');
 
-    this.onValue = this.trade.on('value', data => {
+    this.onValue = this.trade.once('value', data => {
       const trade = data.val();
 
       //protect from deletion
@@ -78,11 +78,6 @@ export default class Trade {
         if(trade.user1Items) this.mySelectedItems = Object.keys(trade.user1Items);
       }
 
-      console.log('user2 items:', trade.user2Items);
-      console.log('user2 Name:', trade.user2Name);
-      console.log('user1 items:', trade.user1Items);
-      console.log('user1 Name:', trade.user1Name);
-      
       const theirList = new TradeList(theirItems, theirName, this.theirSelectedItems).render();
       this.theirSection.append(theirList);
       const myList = new TradeList(myItems, myName, this.mySelectedItems).render();
@@ -105,6 +100,6 @@ export default class Trade {
   }
 
   unrender() {
-    this.trade.off('value', this.onValue);
+    // this.trade.off('value', this.onValue);
   }
 }
