@@ -3,6 +3,7 @@ import html from './trade.html';
 import './trade.css';
 import TradeList from './trade-list/TradeList';
 import { db, auth } from '../../services/firebase';
+import { removeChildren } from '../dom';
 
 const template = new Template(html);
 const itemsByUser = db.ref('itemsByUser');
@@ -17,19 +18,18 @@ export default class Trade {
 
   handleSubmit(form) {
     const data = new FormData(form);
-    const offer = {};
-    data.forEach((value, name) => offer[value] = name); 
     const myItems = {};
     const theirItems = {};
-    for(let key in offer){ //split up form into mine and theirs
-      if(offer[key] === 'mine') myItems[key] = true;
-      else theirItems[key] = true;
-    }
+    data.forEach((value, name) => {
+      if(name === 'mine') myItems[value] = true;
+      else theirItems[value] = true;
+    });
 
     return this.trade.update({ //update the trade with the newly selected / deselected items
-      offeredItems: myItems,
-      desiredItems: theirItems
+      user2Items: myItems,
+      user1Items: theirItems
     });
+    
   }
 
   render() {
@@ -51,36 +51,41 @@ export default class Trade {
       //protect from deletion
       if(!trade) return;
     
-      let myItems, theirItems, selectedItems; //to allow offerer / offeree to be switched around
-      (auth.currentUser.uid === trade.offeredOwnerKey) ? (
-        (myItems = itemsByUser.child(trade.offeredOwnerKey)),
-        (theirItems = itemsByUser.child(trade.desiredOwnerKey)),
-        (this.myHeader.textContent = trade.offeredOwnerName),
-        (this.theirHeader.textContent = trade.desiredOwnerName),
-        (this.aTagMine.href = `/#user/${trade.offeredOwnerKey}`),
-        (this.aTagTheirs.href = `/#user/${trade.desiredOwnerKey}`)
-
+      let myItems, theirItems, theirName, myName; //to allow offerer / offeree to be switched around
+      (auth.currentUser.uid === trade.user2Key) ? (
+        (myItems = itemsByUser.child(trade.user2Key)),
+        (theirItems = itemsByUser.child(trade.user1Key)),
+        (this.myHeader.textContent = trade.user2Name),
+        (this.theirHeader.textContent = trade.user1Name),
+        (this.aTagMine.href = `/#user/${trade.user2Key}`),
+        (this.aTagTheirs.href = `/#user/${trade.user1Key}`),
+        (myName = 'mine'),
+        (theirName = 'theirs')
       ) : (
-        (myItems = itemsByUser.child(trade.desiredOwnerKey)),
-        (theirItems = itemsByUser.child(trade.offeredOwnerKey)),
-        (this.theirHeader.textContent = trade.offeredOwnerName),
-        (this.myHeader.textContent = trade.desiredOwnerName),
-        (this.aTagTheirs.href = `/#user/${trade.offeredOwnerKey}`),
-        (this.aTagMine.href = `/#user/${trade.desiredOwnerKey}`)
+        (myItems = itemsByUser.child(trade.user1Key)),
+        (theirItems = itemsByUser.child(trade.user2Key)),
+        (this.theirHeader.textContent = trade.user2Name),
+        (this.myHeader.textContent = trade.user1Name),
+        (this.aTagTheirs.href = `/#user/${trade.user2Key}`),
+        (this.aTagMine.href = `/#user/${trade.user1Key}`),
+        (myName = 'theirs'),
+        (theirName = 'mine')
       );
-
-      //check for existance first
-      if(auth.currentUser.uid === trade.offeredOwnerKey) {
-        if(trade.offeredItems) this.offeredItems = Object.keys(trade.offeredItems);
-        if(trade.desiredItems) selectedItems = Object.keys(trade.desiredItems);
+      if(auth.currentUser.uid === trade.user2Key) {
+        if(trade.user2Items) this.mySelectedItems = Object.keys(trade.user2Items);
+        if(trade.user1Items) this.theirSelectedItems = Object.keys(trade.user1Items);
       } else {
-        if(trade.desiredItems) this.offeredItems = Object.keys(trade.desiredItems);
-        if(trade.offeredItems) selectedItems = Object.keys(trade.offeredItems);
+        if(trade.user2Items) this.theirSelectedItems = Object.keys(trade.user2Items);
+        if(trade.user1Items) this.mySelectedItems = Object.keys(trade.user1Items);
+      }
+      if(this.mySection.children.length > 0) {
+        removeChildren(this.mySection);
+        removeChildren(this.theirSection);
       }
 
-      const theirList = new TradeList(theirItems, 'theirs', selectedItems).render();
+      const theirList = new TradeList(theirItems, theirName, this.theirSelectedItems).render();
       this.theirSection.append(theirList);
-      const myList = new TradeList(myItems, 'mine', this.offeredItems).render();
+      const myList = new TradeList(myItems, myName, this.mySelectedItems).render();
       this.mySection.append(myList);
 
     });

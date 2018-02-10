@@ -96,11 +96,11 @@ export default class ItemDetail {
     this.handleTradesByUsers(desiredItemOwnerId, myUserId, trade);
 
     return trade.update({
-      desiredOwnerKey: desiredItemOwnerId,
-      desiredOwnerName: desiredItemOwnerUserName,
-      offeredOwnerKey: myUserId,
-      offeredOwnerName: myUserName,
-      [`desiredItems/${desiredKey}`]: true
+      user1Key: desiredItemOwnerId,
+      user1Name: desiredItemOwnerUserName,
+      user2Key: myUserId,
+      user2Name: myUserName,
+      [`user1Items/${desiredKey}`]: true
     })
       .then(() => trade.key);
   }
