@@ -1,6 +1,6 @@
 import Template from '../Template';
 import html from './trades-view-list.html';
-import { auth, db } from '../../services/firebase';
+import { db } from '../../services/firebase';
 
 const template = new Template(html);
 const trades = db.ref('trades');
@@ -24,8 +24,8 @@ export default class TradesViewList {
 
     this.trade = this.tradeRef.on('value', data => {
       const trade = data.val();
-      myName.textContent = trade.offeredOwnerName;
-      theirName.textContent = trade.desiredOwnerName;
+      myName.textContent = trade.user2Name;
+      theirName.textContent = trade.user1Name;
     });
 
     return dom;
