@@ -15,6 +15,8 @@ export default class TradeItem {
     this.itemImages = itemImages.child(key).limitToFirst(1);
     this.name = name;
     if(selectedItems) (selectedItems !== [] && selectedItems.includes(this.key)) ? this.selectedItems = selectedItems : this.selectedItems = false;
+
+    // console.log((selectedItems !== [] && selectedItems.includes(this.key)));
   }
 
   update(item) {

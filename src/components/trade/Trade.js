@@ -30,6 +30,7 @@ export default class Trade {
       offeredItems: myItems,
       desiredItems: theirItems
     });
+    
   }
 
   render() {
@@ -69,16 +70,10 @@ export default class Trade {
         (this.aTagMine.href = `/#user/${trade.desiredOwnerKey}`)
       );
 
-      //check for existance first
-      if(auth.currentUser.uid === trade.offeredOwnerKey) {
-        if(trade.offeredItems) this.offeredItems = Object.keys(trade.offeredItems);
-        if(trade.desiredItems) selectedItems = Object.keys(trade.desiredItems);
-      } else {
-        if(trade.desiredItems) this.offeredItems = Object.keys(trade.desiredItems);
-        if(trade.offeredItems) selectedItems = Object.keys(trade.offeredItems);
-      }
+      if(trade.offeredItems) this.offeredItems = Object.keys(trade.offeredItems);
+      if(trade.desiredItems) selectedItems = Object.keys(trade.desiredItems);
 
-      const theirList = new TradeList(theirItems, 'mine', selectedItems).render();
+      const theirList = new TradeList(theirItems, 'theirs', selectedItems).render();
       this.theirSection.append(theirList);
       const myList = new TradeList(myItems, 'mine', this.offeredItems).render();
       this.mySection.append(myList);
