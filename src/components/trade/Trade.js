@@ -54,17 +54,23 @@ export default class Trade {
       const trade = data.val();
 
       if(!trade.sentBy) this.status = 'new offer';
-      else if(trade.sentBy === auth.currentUser.uid) { //TODO: send disabled trait to tradelist?
+      else if(trade.sentBy === auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') { //TODO: send disabled trait to tradelist checkboxes?
         this.offerButton.classList.add('hidden');
         this.counterButton.classList.add('hidden');
         this.rejectButton.classList.add('hidden');
-      } else if(trade.sentBy !== auth.currentUser.uid) {
+      } else if(trade.sentBy !== auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
         this.offerButton.textContent = 'Accept';
         this.offerButton.classList.add('green');
         this.offerButton.classList.remove('hidden');
         this.rejectButton.classList.remove('hidden');
         this.counterButton.classList.remove('hidden');
         this.status = 'accepted';
+      } else {
+        this.offerButton.classList.add('hidden');
+        this.counterButton.classList.add('hidden');
+        this.rejectButton.classList.add('hidden');
+        this.success.textContent = `This trade was ${trade.status}`;
+        this.success.classList.remove('hidden');
       }
 
       //protect from deletion

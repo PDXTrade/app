@@ -5,9 +5,11 @@
   top: 15rem;
   transform: translateX(-50%);
   color: rgb(214,80,62);
-  font-size: 3rem;
+  font-size: 2.8rem;
   text-align: center;
   z-index: 100;
+  background-color: rgba(22, 22, 22, .7);
+  text-transform: uppercase;
 }
 
 #trade-form {
