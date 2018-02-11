@@ -16,7 +16,7 @@ export default class Trade {
     this.trade = trades.child(this.tradeKey);
   }
 
-  handleSubmit(form) {
+  handleSubmit(form, status) {
     const data = new FormData(form);
     const myItems = {};
     const theirItems = {};
@@ -27,7 +27,9 @@ export default class Trade {
 
     return this.trade.update({ //update the trade with the newly selected / deselected items
       user2Items: myItems,
-      user1Items: theirItems
+      user1Items: theirItems,
+      sentBy: auth.currentUser.uid,
+      status: status
     });
     
   }
@@ -36,17 +38,47 @@ export default class Trade {
     const dom = template.clone();
    
     this.myHeader = dom.querySelector('h1.my-user');
-    this.mySection = dom.querySelector('section.my-item-list');  
+    this.mySection = dom.querySelector('section.my-item-list'); 
+    this.myFieldset = dom.querySelector('#my-fieldset'); 
     this.theirSection = dom.querySelector('section.their-item-list');  
     this.theirHeader = dom.querySelector('h1.their-user');
+    this.theirFieldset = dom.querySelector('#their-fieldset');
     this.form = dom.querySelector('form');
     this.myFieldset = dom.querySelector('#my-fieldset');
     this.success = dom.querySelector('#success');
     this.aTagMine = dom.querySelector('.my-a');
     this.aTagTheirs = dom.querySelector('.their-a');
+    this.counterButton = dom.querySelector('#counter');
+    this.offerButton = dom.querySelector('#offer');
+    this.rejectButton = dom.querySelector('#reject');
 
     this.onValue = this.trade.on('value', data => {
       const trade = data.val();
+
+      if(!trade.sentBy) this.status = 'new offer';
+      else if(trade.sentBy === auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
+        this.offerButton.classList.add('hidden');
+        this.counterButton.classList.add('hidden');
+        this.rejectButton.classList.add('hidden');
+        this.myFieldset.disabled = true;
+        this.theirFieldset.disabled = true;
+      } else if(trade.sentBy !== auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
+        this.offerButton.textContent = 'Accept';
+        this.offerButton.classList.remove('hidden');
+        this.rejectButton.classList.remove('hidden');
+        this.counterButton.classList.remove('hidden');
+        this.status = 'accepted';
+        this.myFieldset.disabled = false;
+        this.theirFieldset.disabled = false;
+      } else {
+        this.offerButton.classList.add('hidden');
+        this.counterButton.classList.add('hidden');
+        this.rejectButton.classList.add('hidden');
+        this.success.textContent = `This trade was ${trade.status}`;
+        this.success.classList.remove('hidden');
+        this.myFieldset.disabled = true;
+        this.theirFieldset.disabled = true;
+      }
 
       //protect from deletion
       if(!trade) return;
@@ -92,13 +124,34 @@ export default class Trade {
 
     this.form.addEventListener('submit', (event) => {
       event.preventDefault();
-      this.handleSubmit(event.target);
+      this.handleSubmit(event.target, this.status);
       this.success.classList.remove('hidden');
 
       setTimeout(() => {
         window.location.hash = `tradeview/${auth.currentUser.uid}`;
       }, 1000);
+    });
 
+    this.rejectButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.status = 'rejected';
+      this.handleSubmit(this.form, this.status);
+      this.success.classList.remove('hidden');
+
+      setTimeout(() => {
+        window.location.hash = `tradeview/${auth.currentUser.uid}`;
+      }, 1000);
+    });
+
+    this.counterButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.status = 'counter offer';
+      this.handleSubmit(this.form, this.status);
+      this.success.classList.remove('hidden');
+
+      setTimeout(() => {
+        window.location.hash = `tradeview/${auth.currentUser.uid}`;
+      }, 1000);
     });
 
     return dom;

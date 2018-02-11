@@ -1,14 +1,20 @@
 <h3 id="success" class="hidden">Submitted!</h3>
 <form id="trade-form">
-  <fieldset id="my-fieldset" class="trade-set">
-    <legend>Select your items to offer</legend>
-    <a class="my-a"><h1 class="my-user"></h1></a>
-    <section class="my-item-list"></section>
-  </fieldset>
-  <fieldset class="trade-set">
-    <legend>Select desired items</legend> 
-    <a class="their-a"><h1 class="their-user"></h1></a>
-    <section class="their-item-list"></section>
-  </fieldset>
-  <button class="footer-button orange-button" type="submit">Offer</button>
+  <div class="grid">
+    <fieldset id="my-fieldset" class="trade-set">
+      <legend>Select your items to offer</legend>
+      <a class="my-a"><h1 class="my-user"></h1></a>
+      <section class="my-item-list"></section>
+    </fieldset>
+    <fieldset id="their-fieldset" class="trade-set">
+      <legend>Select desired items</legend> 
+      <a class="their-a"><h1 class="their-user"></h1></a>
+      <section class="their-item-list"></section>
+    </fieldset>
+  </div>
+  <div id="trade-buttons">
+    <button id="reject" value="reject" class="orange-button hidden" type="button">Reject</button>
+    <button id="offer" value="accept" class="orange-button" type="submit">Offer</button>
+    <button id="counter" value="counter" class="orange-button hidden" type="button">Counter</button>
+  </div>
 </form>
