@@ -2,11 +2,11 @@
 
 #root {
   height: 100vh;
-  display: grid;
+  /* display: grid;
   grid-template-areas:
   "header"
   "main";
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr; */
   hyphens: auto;
 }
 

@@ -16,7 +16,7 @@ export default class Trade {
     this.trade = trades.child(this.tradeKey);
   }
 
-  handleSubmit(form) {
+  handleSubmit(form, status) {
     const data = new FormData(form);
     const myItems = {};
     const theirItems = {};
@@ -27,7 +27,9 @@ export default class Trade {
 
     return this.trade.update({ //update the trade with the newly selected / deselected items
       user2Items: myItems,
-      user1Items: theirItems
+      user1Items: theirItems,
+      sentBy: auth.currentUser.uid,
+      status: status
     });
     
   }
@@ -44,9 +46,21 @@ export default class Trade {
     this.success = dom.querySelector('#success');
     this.aTagMine = dom.querySelector('.my-a');
     this.aTagTheirs = dom.querySelector('.their-a');
+    this.counterButton = dom.querySelector('#counter');
+    this.offerButton = dom.querySelector('#offer');
+    this.rejectButton = dom.querySelector('#reject');
 
     this.onValue = this.trade.on('value', data => {
       const trade = data.val();
+
+      if(!trade.sentBy) this.status = 'new offer';
+      else if(trade.sentBy === auth.currentUser.uid) { //TODO: send disabled trait to tradelist?
+        this.offerButton.classList.add('hidden');
+      } else if(trade.sentBy !== auth.currentUser.uid) {
+        this.offerButton.textContent = 'Accept';
+        this.rejectButton.classList.remove('hidden');
+        this.counterButton.classList.remove('hidden');
+      }
 
       //protect from deletion
       if(!trade) return;
@@ -92,7 +106,7 @@ export default class Trade {
 
     this.form.addEventListener('submit', (event) => {
       event.preventDefault();
-      this.handleSubmit(event.target);
+      this.handleSubmit(event.target, this.status);
       this.success.classList.remove('hidden');
 
       setTimeout(() => {
