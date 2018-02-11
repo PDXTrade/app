@@ -20,7 +20,7 @@
   .grid {
     height: 80vh;
     display: grid;
-    grid-gap: .4rem;
+    grid-gap: .5rem;
     grid-template-columns: 1fr 1fr;
   }
   a {
@@ -37,13 +37,13 @@
   bottom: 1rem;
   width: 90%;
   left: 50%;
-  justify-content: space-between;
+  justify-content: center;
   align-items: baseline;
   transform: translate(-50%);
   #reject, 
   #offer,
   #counter {
-    /* display: block; */
+    max-width: 700px;
   }
   #reject {
     flex-grow: 1;
@@ -63,10 +63,6 @@
   }
 }
 
-.green {
-  background: green;
-}
-
 .trade-set {
   max-height: 100%;
   overflow-y: scroll;
@@ -74,7 +70,31 @@
 
 @media (min-width:600px) {
   #trade-form {
-    margin-top: 5rem;
-    height: 68vh;
+    margin-top: 9rem;
+    width: 90%;
+    .grid {
+    }
+    .trade-item {
+      display: grid;
+      grid-gap: .5rem;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      
+    }
+    .grid {
+      grid-gap: 1rem;
+      height: 65vh;
+    }
+  }
+  #trade-buttons {
+    button {
+      font-size: 2rem;
+    }
+  }
+}
+@media (min-width:100px) {
+  #trade-form {
+    .trade-item {
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    }
   }
 }

@@ -64,7 +64,6 @@ export default class Trade {
         this.theirFieldset.disabled = true;
       } else if(trade.sentBy !== auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
         this.offerButton.textContent = 'Accept';
-        this.offerButton.classList.add('green');
         this.offerButton.classList.remove('hidden');
         this.rejectButton.classList.remove('hidden');
         this.counterButton.classList.remove('hidden');
