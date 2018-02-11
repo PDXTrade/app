@@ -56,10 +56,15 @@ export default class Trade {
       if(!trade.sentBy) this.status = 'new offer';
       else if(trade.sentBy === auth.currentUser.uid) { //TODO: send disabled trait to tradelist?
         this.offerButton.classList.add('hidden');
+        this.counterButton.classList.add('hidden');
+        this.rejectButton.classList.add('hidden');
       } else if(trade.sentBy !== auth.currentUser.uid) {
         this.offerButton.textContent = 'Accept';
+        this.offerButton.classList.add('green');
+        this.offerButton.classList.remove('hidden');
         this.rejectButton.classList.remove('hidden');
         this.counterButton.classList.remove('hidden');
+        this.status = 'accepted';
       }
 
       //protect from deletion
@@ -112,7 +117,28 @@ export default class Trade {
       setTimeout(() => {
         window.location.hash = `tradeview/${auth.currentUser.uid}`;
       }, 1000);
+    });
 
+    this.rejectButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.status = 'rejected';
+      this.handleSubmit(this.form, this.status);
+      this.success.classList.remove('hidden');
+
+      setTimeout(() => {
+        window.location.hash = `tradeview/${auth.currentUser.uid}`;
+      }, 1000);
+    });
+
+    this.counterButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.status = 'counter offer';
+      this.handleSubmit(this.form, this.status);
+      this.success.classList.remove('hidden');
+
+      setTimeout(() => {
+        window.location.hash = `tradeview/${auth.currentUser.uid}`;
+      }, 1000);
     });
 
     return dom;

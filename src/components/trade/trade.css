@@ -21,6 +21,12 @@
     grid-gap: .4rem;
     grid-template-columns: 1fr 1fr;
   }
+  a {
+    color: inherit;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 #trade-buttons {
@@ -42,7 +48,6 @@
   }
   #offer {
     flex-grow:2;
-    background: green;
   }
   #counter {
     flex-grow:1;
@@ -54,6 +59,10 @@
       margin-right: inherit;
     }
   }
+}
+
+.green {
+  background: green;
 }
 
 .trade-set {
