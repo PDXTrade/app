@@ -38,9 +38,11 @@ export default class Trade {
     const dom = template.clone();
    
     this.myHeader = dom.querySelector('h1.my-user');
-    this.mySection = dom.querySelector('section.my-item-list');  
+    this.mySection = dom.querySelector('section.my-item-list'); 
+    this.myFieldset = dom.querySelector('#my-fieldset'); 
     this.theirSection = dom.querySelector('section.their-item-list');  
     this.theirHeader = dom.querySelector('h1.their-user');
+    this.theirFieldset = dom.querySelector('#their-fieldset');
     this.form = dom.querySelector('form');
     this.myFieldset = dom.querySelector('#my-fieldset');
     this.success = dom.querySelector('#success');
@@ -54,10 +56,12 @@ export default class Trade {
       const trade = data.val();
 
       if(!trade.sentBy) this.status = 'new offer';
-      else if(trade.sentBy === auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') { //TODO: send disabled trait to tradelist checkboxes?
+      else if(trade.sentBy === auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
         this.offerButton.classList.add('hidden');
         this.counterButton.classList.add('hidden');
         this.rejectButton.classList.add('hidden');
+        this.myFieldset.disabled = true;
+        this.theirFieldset.disabled = true;
       } else if(trade.sentBy !== auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
         this.offerButton.textContent = 'Accept';
         this.offerButton.classList.add('green');
@@ -65,12 +69,16 @@ export default class Trade {
         this.rejectButton.classList.remove('hidden');
         this.counterButton.classList.remove('hidden');
         this.status = 'accepted';
+        this.myFieldset.disabled = false;
+        this.theirFieldset.disabled = false;
       } else {
         this.offerButton.classList.add('hidden');
         this.counterButton.classList.add('hidden');
         this.rejectButton.classList.add('hidden');
         this.success.textContent = `This trade was ${trade.status}`;
         this.success.classList.remove('hidden');
+        this.myFieldset.disabled = true;
+        this.theirFieldset.disabled = true;
       }
 
       //protect from deletion
