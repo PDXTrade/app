@@ -72,8 +72,6 @@
   #trade-form {
     margin-top: 9rem;
     width: 90%;
-    .grid {
-    }
     .trade-item {
       display: grid;
       grid-gap: .5rem;
@@ -91,7 +89,7 @@
     }
   }
 }
-@media (min-width:100px) {
+@media (min-width:1000px) {
   #trade-form {
     .trade-item {
       grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
