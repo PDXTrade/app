@@ -118,7 +118,7 @@ export default class ItemDetail {
     this.imageSection = dom.querySelector('section.images');
     this.removeButton = dom.querySelector('button.remove');
     this.cancelButton = dom.querySelector('button.cancel');
-    this.submitButtons = dom.querySelector('label#submit-buttons');
+    this.submitButtons = dom.querySelector('#submit-buttons');
     this.saveButton = dom.querySelector('button.save');
     this.editButton = dom.querySelector('button.edit');
     this.tradeButton = dom.querySelector('button.trade');

@@ -1,5 +1,7 @@
 .item-image {
   position: relative;
+  max-width: 400px;
+  margin: .5rem auto;
   .x {
     position: absolute;
     bottom: 0;
