@@ -24,19 +24,56 @@
   }
   input {
     margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  select {
+    font-size: 1rem;
   }
 }
+
+.flex { display: flex;}
 
 .images { width: 100%; justify-self: end;}
 
 #owner { margin: 0; padding: 0; }
 
-#submit-buttons { width: 20rem; }
+#submit-buttons { 
+  /* display: flex; */
+  position: fixed;
+  bottom: 1rem;
+  width: 90%;
+  left: 50%;
+  justify-content: center;
+  align-items: baseline;
+  transform: translate(-50%);
+  .save, 
+  .cancel,
+  .delete {
+    max-width: 700px;
+  }
+  .cancel {
+    flex-grow: 1;
+  }
+  .save {
+    flex-grow:2;
+  }
+  .delete {
+    flex-grow:1;
+  }
+  button {
+    margin-right: .5rem;
+    font-size: 1.5rem;
+    padding: .5rem;
+    &:last-child {
+      margin-right: inherit;
+    }
+  }
+}
+
 
 @media (max-width: 600px) {
   #item-detail { 
     grid-template-columns: 1fr; 
-    /* justify-content: center; */
   }
 
   #details {
