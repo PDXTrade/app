@@ -18,7 +18,9 @@ header {
     a:visited {
       color: $base-dark;
     }
-
+    a:hover {
+      color: $action-red;
+    }
     .header-buttons {
       text-align: right;
       font-size: .7em;

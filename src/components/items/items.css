@@ -1,9 +1,7 @@
 @import '../variables.css';
 
 h1, p, #list-view, #user-item-list {
-  /* background: $base-white; */
   padding: 0 2%;
-  /* border-radius: 1.5rem; */
 }
 
 #list-view, #user-item-list {

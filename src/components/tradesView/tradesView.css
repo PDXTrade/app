@@ -15,7 +15,12 @@
   a {
     color: $base-dark;
     &:hover {
-      text-decoration: underline;
+      color: $action-red;
     }
   }
+}
+@media (min-width:600px) {
+  /* #trades-view,  {
+    margin-top: 9rem;
+  } */
 }

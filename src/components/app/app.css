@@ -60,7 +60,7 @@ main {
 @media (min-width:600px) {
 
   main {
-    margin-top: 4rem;
+    margin-top: 9rem;
     .footer-button {width: 40%;}
   }
 }

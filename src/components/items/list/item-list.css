@@ -1,5 +1,6 @@
+@import '../../variables.css';
+
 ul.item-list {
-  max-height: ;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(47%, 2fr));
   grid-gap: 2%;
