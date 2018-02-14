@@ -35,10 +35,18 @@
 
 .images { width: 100%; justify-self: end;}
 
-#owner { margin: 0; padding: 0; }
+#owner { 
+  margin: 0; 
+  padding: 0;
+  a {
+    color: $base-dark;
+    &:hover {
+      color: $action-red
+    }
+  }
+ }
 
 #submit-buttons { 
-  /* display: flex; */
   position: fixed;
   bottom: 1rem;
   width: 90%;
@@ -48,25 +56,30 @@
   transform: translate(-50%);
   .save, 
   .cancel,
-  .delete {
+  .remove {
     max-width: 700px;
   }
   .cancel {
     flex-grow: 1;
   }
   .save {
-    flex-grow:2;
+    flex-grow: 2;
   }
-  .delete {
-    flex-grow:1;
+  .remove {
+    flex-grow: 1;
   }
   button {
     margin-right: .5rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding: .5rem;
     &:last-child {
       margin-right: inherit;
     }
+  }
+}
+@media (min-width: 600px) {
+  #submit-buttons button {
+    font-size: 2em;
   }
 }
 
