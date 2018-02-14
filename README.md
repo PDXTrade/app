@@ -25,9 +25,9 @@ Steps Taken
 
 We started with researching direct and indirect competitors to our idea. We used craigslist, offerup and letgo as examples. We created user personas and user stories to help guide our design choices. We created a UX strategy document. We sketched what the routes and subroutes of the app would look like, structured our components, and began building the html architecture. Each component was done one at a time. We started with user authentication, then item addition, then item display, etc. The items can be edited in real time after posting. The minimum required to post an item is one image and a title.
 
-[Imgur](https://i.imgur.com/FoeDPTK.gifv)
-[Imgur](https://i.imgur.com/MUDLGEK.gifv)
-[Imgur](https://i.imgur.com/Wuq0ZfS.gifv)
+![Category Nav](https://imgur.com/FoeDPTK)
+![Edit sequence](https://imgur.com/MUDLGEK.gif)
+![Trade sequence](https://imgur.com/Wuq0ZfS.gif)
 
 Reflection / Changes
 ===
