@@ -2,11 +2,6 @@
 
 #root {
   height: 100vh;
-  /* display: grid;
-  grid-template-areas:
-  "header"
-  "main";
-  grid-template-rows: auto 1fr; */
   hyphens: auto;
 }
 
@@ -14,11 +9,8 @@ ul {
   list-style: none;
 }
 
-#header { grid-area: header; } 
-#main { grid-area: main; } 
-
 main {
-  width: 100%;
+  width: 90%;
   margin: 0 auto;
 
   .footer-button {
