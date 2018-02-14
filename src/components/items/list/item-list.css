@@ -2,19 +2,19 @@
 
 ul.item-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(47%, 2fr));
-  grid-gap: 2%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: .5rem;
 }
 
-@media (min-width: 375px) {
+ @media (min-width: 450px) {
   ul.item-list {
-    grid-template-columns: repeat(auto-fill, minmax(32%, 3fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   }
 }
 
-@media (min-width: 450px) {
+@media (min-width: 800px) {
   ul.item-list {
-    grid-template-columns: repeat(auto-fill, minmax(29.33%, 3fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
 
