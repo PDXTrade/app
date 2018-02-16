@@ -19,6 +19,7 @@ export default class TradeItem {
 
   update(item) {
     this.label.textContent = `${item.title}`;
+    /* good job providing alt descriptions */
     this.image.alt = item.title;
     if(this.selectedItems) {
       this.input.checked = true;

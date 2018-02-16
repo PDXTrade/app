@@ -10,6 +10,7 @@
     align-self: center;
     font-size: 1rem;
   }
+  /* whenever you add a :hover cue, make sure your touch screen audience still understands what the interface does */
   &:hover {
     h2.caption {
       color: $action-red;

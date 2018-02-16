@@ -1,5 +1,6 @@
 import Template from '../Template';
 import html from './user-page.html';
+/* this file is blank. Do you need it? */
 import './user-page.css';
 import ItemList from '../items/list/ItemList';
 

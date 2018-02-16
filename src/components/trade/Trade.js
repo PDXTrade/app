@@ -127,6 +127,7 @@ export default class Trade {
       this.success.classList.remove('hidden');
 
       setTimeout(() => {
+        /* the success message only stays visible for one second. Too short? */
         window.location.hash = `tradeview/${auth.currentUser.uid}`;
       }, 1000);
     });

@@ -10,6 +10,7 @@ $action-red: rgb(214,80,62);
 $base-dark: rgb(35,5,5); 
 $form-focus: rgb(240,240,240);
 
+/* this doesn't get applied anywhere */
 $header-font: 'Open Sans', sans-serif;
 $content-padding: .5rem 1rem;
 
