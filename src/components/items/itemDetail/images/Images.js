@@ -17,6 +17,8 @@ export default class Images {
     this.form = form;
   }
 
+  // This is third occurrence in code of image upload logic! :(
+
   handleUpload(file) {
     const itemImage = this.itemsImages.push();
     const uploadTask = this.imageStorage.child(itemImage.key).put(file);

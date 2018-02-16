@@ -67,13 +67,8 @@ export default class App {
 
   render() {
     const dom = template.clone();   
-
     dom.querySelector('header').appendChild(new Header().render());
-
-    this.footer = dom.querySelector('#footer');
-    this.header = dom.querySelector('#header');
     this.main = dom.querySelector('main');
-
     return dom;
   }
 

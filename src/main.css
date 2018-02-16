@@ -1,3 +1,5 @@
+// odd that this file is in ./components.
+// create a ./src/styles folder and put common css assets there
 @import './components/variables.css';
 
 * {

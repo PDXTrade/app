@@ -13,24 +13,23 @@ export default class UserPage {
   
   constructor() {
     this.userKey = window.location.hash.split('/')[1];
+    this.user = users.child(this.userKey);
+    this.userItems = itemsByUser.child(this.userKey);
   }
 
   render() { 
     
     const dom = template.clone();
         
-    this.header = dom.querySelector('#username-header');
-    this.section = dom.querySelector('#user-item-list');    
+    const header = dom.querySelector('#username-header');
+    const section = dom.querySelector('#user-item-list');    
     
-    this.userItems = itemsByUser.child(this.userKey);
-    this.user = users.child(this.userKey);
-
     this.user.child('name').once('value', (data)=>{
-      this.header.textContent = `${data.val()}'s items`;
+      header.textContent = `${data.val()}'s items`;
     });
 
-    const userList = new ItemList(this.userItems).render();
-    this.section.append(userList);
+    const userList = new ItemList(this.userItems);
+    section.append(userList.render());
 
     return dom; 
   }

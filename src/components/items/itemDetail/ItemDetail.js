@@ -42,7 +42,12 @@ export default class ItemDetail {
       .catch(console.error);
   }
 
+  // This looks near identical to "AddItem" component.
+  // Usually means you want a common component like "ImageUpload"
+  // that AddItem and ItemDetail can both use.
+  // But doesn't look like this method is even used???
   handleUpload(itemKey, file) {
+
     
     const imageRef = itemImages.child(itemKey).push();
 
@@ -106,6 +111,9 @@ export default class ItemDetail {
   }
 
   render() {
+    // A lot going on in this component.
+    // Consider breaking down to use sub-components
+
     const dom = template.clone();
     this.title = dom.querySelector('#detail-title');
     this.description = dom.querySelector('#detail-description');
@@ -144,18 +152,33 @@ export default class ItemDetail {
       //add images
       const ownerExists = (auth.currentUser) ? auth.currentUser.uid : false;
       const isOwner = item.owner === ownerExists;
+
+      // need to unrender!
+      if(this.images) this.images.unrender();
+
+      // Generally speaking, don't pass DOM! (Unless child component is purely structural presentation)
+      // Use functions for children to tell parents about changes
+      // Something is off about your design. Not sure why you ended doing this.
       this.images = new Images(this.key, isOwner, this.editButton, this.cancelButton, this.form);
       removeChildren(this.imageSection);
       this.imageSection.append(this.images.render());
 
+      // This is going to accumulate listeners every time the data changes.
+      // Move outside of this.item.on('value'). Tricky problem, key to resolving
+      // is thinking about data changes. The owner of an item won't change, so
+      // Perhaps separate listener on `this.items.child('owner').once(...` that could do
+      // the owner operations, and have this listener just manage changes to the item... 
+      
       //if trade button is clicked
       this.tradeButton.addEventListener('click', (event)=> {
-        event.preventDefault();
+        // event.preventDefault(); // Not needed
         this.handleTrade(this.key, item.owner, this.ownerName, auth.currentUser.uid, auth.currentUser.displayName)
           .then((tradeHash) => {
             window.location.hash = `trade/${tradeHash}`;
           });
       });
+
+      // Again, going to be issues if item data changes because this will re-run...
 
       //allow editing capabilities if owner
       if(isOwner) { 

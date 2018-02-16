@@ -11,24 +11,26 @@ const itemImageStorage = storage.ref('items');
 
 export default class AddItem {
   constructor() {
-    auth.onAuthStateChanged(user => {
-      if(user) { this.myItems = itemsByUser.child(auth.currentUser.uid); }
-    });
+    // Items already checks for user before loading AddItem
+    // auth.onAuthStateChanged(user => {
+    //   if(user) { this.myItems = itemsByUser.child(auth.currentUser.uid); }
+    // });
+
+    this.myItems = itemsByUser.child(auth.currentUser.uid);
   }
+
   handleUpload(itemKey, file) {
     
     const imageRef = itemImages.child(itemKey).push();
-
     const uploadTask = itemImageStorage.child(itemKey).child(imageRef.key).put(file);
-    return new Promise((resolve, reject) => {
 
+    return new Promise((resolve, reject) => {
       uploadTask.on('state_changed', (/*snapshot*/) => {
         // progress, pause and cancel events
       }, reject, () => {
         // success! now let's get the download url...
         const downloadUrl = uploadTask.snapshot.downloadURL;
-        this.fileInput.value = null;
-  
+        // page is going to navigate away, so this is not needed
         resolve({ url: downloadUrl, imageRef });
       });
     });
@@ -65,7 +67,7 @@ export default class AddItem {
     this.error = dom.querySelector('.error');
 
     const form = dom.querySelector('form');
-    this.title = dom.querySelector('input[name=title]');
+    const cancelButton = dom.querySelector('button[type=button]');
     this.fileInput = dom.querySelector('input[type=file]');
     
     form.addEventListener('submit', (event) => {
@@ -73,7 +75,7 @@ export default class AddItem {
       this.handleSubmit(event.target);
     });
 
-    dom.querySelector('button[type=button]').addEventListener('click', event => {
+    cancelButton.addEventListener('click', event => {
       event.preventDefault();
       window.location.hash = '#items';
     });
