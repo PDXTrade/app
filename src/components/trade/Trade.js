@@ -55,14 +55,16 @@ export default class Trade {
     this.onValue = this.trade.on('value', data => {
       const trade = data.val();
 
+      const notAcceptedOrRejected = trade.status !== 'rejected' && trade.status !== 'accepted';
+
       if(!trade.sentBy) this.status = 'new offer';
-      else if(trade.sentBy === auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
+      else if(trade.sentBy === auth.currentUser.uid && notAcceptedOrRejected) {
         this.offerButton.classList.add('hidden');
         this.counterButton.classList.add('hidden');
         this.rejectButton.classList.add('hidden');
         this.myFieldset.disabled = true;
         this.theirFieldset.disabled = true;
-      } else if(trade.sentBy !== auth.currentUser.uid && trade.status !== 'rejected' && trade.status !== 'accepted') {
+      } else if(trade.sentBy !== auth.currentUser.uid && notAcceptedOrRejected) {
         this.offerButton.textContent = 'Accept';
         this.offerButton.classList.remove('hidden');
         this.rejectButton.classList.remove('hidden');
@@ -83,41 +85,38 @@ export default class Trade {
       //protect from deletion
       if(!trade) return;
     
-      let myItems, theirItems, theirName, myName; //to allow offerer / offeree to be switched around
-      (auth.currentUser.uid === trade.user2Key) ? (
-        (myItems = itemsByUser.child(trade.user2Key)),
-        (theirItems = itemsByUser.child(trade.user1Key)),
-        (this.myHeader.textContent = trade.user2Name),
-        (this.theirHeader.textContent = trade.user1Name),
-        (this.aTagMine.href = `/#user/${trade.user2Key}`),
-        (this.aTagTheirs.href = `/#user/${trade.user1Key}`),
-        (myName = 'mine'),
-        (theirName = 'theirs')
-      ) : (
-        (myItems = itemsByUser.child(trade.user1Key)),
-        (theirItems = itemsByUser.child(trade.user2Key)),
-        (this.theirHeader.textContent = trade.user2Name),
-        (this.myHeader.textContent = trade.user1Name),
-        (this.aTagTheirs.href = `/#user/${trade.user2Key}`),
-        (this.aTagMine.href = `/#user/${trade.user1Key}`),
-        (myName = 'theirs'),
-        (theirName = 'mine')
-      );
-      if(auth.currentUser.uid === trade.user2Key) {
-        if(trade.user2Items) this.mySelectedItems = Object.keys(trade.user2Items);
-        if(trade.user1Items) this.theirSelectedItems = Object.keys(trade.user1Items);
-      } else {
-        if(trade.user2Items) this.theirSelectedItems = Object.keys(trade.user2Items);
-        if(trade.user1Items) this.mySelectedItems = Object.keys(trade.user1Items);
-      }
+      // Don't abuse ternaries like this. Hard to read and harder to edit
+
+      // Would be better if you had put user1: { key, name, items }, user2: { key, name, items } in firebase.
+      // It would also have allowed you to create separate TradeOffer Component, that you could have just passed
+      // ref to.
+      // But assuming just the data change, code would become something like:
+
+      //to allow offerer / offeree to be switched around
+      const my = (auth.currentUser.uid === trade.user2.key) ? trade.user2 : trade.user1;
+      const theirs = (auth.currentUser.uid === trade.user2.key) ? trade.user1 : trade.user2;
+      
+      const myItems = itemsByUser.child(my.key);
+      const theirItems = itemsByUser.child(theirs.key);
+      this.myHeader.textContent = my.name;
+      this.theirHeader.textContent = theirs.name;
+      this.aTagMine.href = `/#user/${my.key}`;
+      this.aTagTheirs.href = `/#user/${theirs.key}`;
+      // (myName = 'mine'),
+      // (theirName = 'theirs')
+
+
+      if(my.items) this.mySelectedItems = Object.keys(my.items);
+      if(theirs.items) this.theirSelectedItems = Object.keys(theirs.items);
+      
       if(this.mySection.children.length > 0) {
         removeChildren(this.mySection);
         removeChildren(this.theirSection);
       }
 
-      const theirList = new TradeList(theirItems, theirName, this.theirSelectedItems).render();
+      const theirList = new TradeList(theirItems, 'theirs', this.theirSelectedItems).render();
       this.theirSection.append(theirList);
-      const myList = new TradeList(myItems, myName, this.mySelectedItems).render();
+      const myList = new TradeList(myItems, 'mine', this.mySelectedItems).render();
       this.mySection.append(myList);
 
     });
@@ -128,6 +127,7 @@ export default class Trade {
       this.success.classList.remove('hidden');
 
       setTimeout(() => {
+        /* the success message only stays visible for one second. Too short? */
         window.location.hash = `tradeview/${auth.currentUser.uid}`;
       }, 1000);
     });

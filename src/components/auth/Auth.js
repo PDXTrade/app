@@ -15,9 +15,7 @@ export default class Auth {
   }
 
   render() {
-
     const dom = template.clone();
-
 
     setTimeout(() => {
       const { origin, pathname } = window.location;
@@ -41,6 +39,7 @@ export default class Auth {
   }
 
   unrender() {
+    // no-op
   }
 
 }

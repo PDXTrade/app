@@ -27,10 +27,10 @@ module.exports = {
         test: /.html$/,
         use: {
           loader: 'html-loader',
-          options: {
-            interpolate: true,
-            // attrs: false
-          }
+          // I don't thing you are using interpolation `${...}` in html files
+          // options: {
+          //   interpolate: true,
+          // }
         }
       },
       {

@@ -19,21 +19,12 @@ export default class Item {
 
   update(item) {
     this.caption.textContent = `${item.title}`;
+    /* good job providing alt descriptions */
     this.image.alt = item.title;
   }
 
   render() {
     const dom = template.clone();
-    // const routes = window.location.hash.split('/');
-    // const route = routes[0];
-    
-    // if(route === '#trade') {
-    //   // apply checkbox to page
-    //   const itemSelect = dom.querySelector('.item-check');
-    //   const checkBox = document.createElement('input');
-    //   checkBox.type = 'checkbox';
-    //   itemSelect.appendChild(checkBox);
-    // }
   
     dom.querySelector('a').href = `#items/item/${this.key}`;
     this.caption = dom.querySelector('h2');

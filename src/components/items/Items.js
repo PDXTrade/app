@@ -3,15 +3,20 @@ import './items.css';
 import html from './items.html';
 import ItemList from './list/ItemList';
 import AddItem from './add/AddItem';
+import ItemDetail from './itemDetail/ItemDetail';
 import { db, auth } from '../../services/firebase';
 import { removeChildren } from '../dom';
-import ItemDetail from './itemDetail/ItemDetail';
 
 const template = new Template(html);
-const toys = db.ref('items').orderByChild('category').equalTo('Toys');
-const electronics = db.ref('items').orderByChild('category').equalTo('Electronics');
-const pets = db.ref('items').orderByChild('category').equalTo('Pets');
-const vehicles = db.ref('items').orderByChild('category').equalTo('Vehicles');
+// DRY!
+const orderByCategory = db.ref('items').orderByChild('category');
+// Use a map
+const categoryQueries = {
+  Toys: orderByCategory.equalTo('Toys'),
+  Electronics: orderByCategory.equalTo('Electronics'),
+  Pets: orderByCategory.equalTo('Pets'),
+  Vehicles: orderByCategory.equalTo('Vehicles')
+};
 
 export default class Items {
   constructor() {
@@ -27,45 +32,41 @@ export default class Items {
     if(this.childComponent && this.childComponent.unrender) {
       this.childComponent.unrender();
     }
-    let childComponent;
-    if(childPage === 'Vehicles') {
-      childComponent = new ItemList(vehicles);
-      this.header.textContent = `${childPage}`;
-      this.paragraph.textContent = 'Items in the vehicles category';
-    } else if(childPage === 'Toys') {
-      childComponent = new ItemList(toys);
-      this.header.textContent = `${childPage}`;
-      this.paragraph.textContent = 'Items in the toys category';
-    } else if(childPage === 'Pets') {
-      childComponent = new ItemList(pets);
-      this.paragraph.textContent = 'Items in the pets category';      
-      this.header.textContent = `${childPage}`;
-    } else if(childPage === 'Electronics') {
-      childComponent = new ItemList(electronics);
-      this.paragraph.textContent = 'Items in the electronics category';      
-      this.header.textContent = `${childPage}`;
-    } else if(childPage === 'addItem') {
-      if(auth.currentUser) { //prevents no user from seeing add item
-        childComponent = new AddItem();
-        this.header.textContent = 'New Item';
-        this.paragraph.textContent = 'Create a new item to trade';
-      } else {
+
+    let childComponent; 
+    let headerText = '';
+    let paragraphText = '';
+
+    const query = categoryQueries[childPage];
+
+    if(query) {
+      childComponent = new ItemList(query);
+      headerText = `${childPage}`;
+      paragraphText = `Items in the ${childPage.toLowerCase()} category`;
+    }
+    else if(childPage === 'addItem') {
+      // Use a guard clause to reduce nesting
+      if(!auth.currentUser) { //prevents no user from seeing add item
         return window.location.hash = `#login/${encodeURIComponent('#items/addItem')}`;
       }
-    } else if(childPage === 'item') {
+      childComponent = new AddItem();
+      headerText = 'New Item';
+      paragraphText = 'Create a new item to trade';
+    } 
+    else if(childPage === 'item') {
       childComponent = new ItemDetail(routes[2]); //selects key from route split
-      this.header.textContent = '';
-      this.paragraph.textContent = '';
-    } else {
+    } 
+    else {
       childComponent = new ItemList();
-      this.header.textContent = 'All Items';
-      this.paragraph.textContent = '';      
-      
+      headerText = 'All Items';
     }
+
+    this.header.textContent = headerText;
+    this.paragraph.textContent = paragraphText;
+
     removeChildren(this.section);
     this.childComponent = childComponent;
     this.section.appendChild(childComponent.render());
-
   }
 
   render() { 
